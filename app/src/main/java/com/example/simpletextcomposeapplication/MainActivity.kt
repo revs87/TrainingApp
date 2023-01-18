@@ -1,5 +1,6 @@
 package com.example.simpletextcomposeapplication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -37,6 +38,7 @@ import androidx.navigation.navArgument
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
+import com.example.simpletextcomposeapplication.ui.MealsMainActivity
 import com.example.simpletextcomposeapplication.ui.theme.MyTheme
 import com.example.simpletextcomposeapplication.ui.theme.ShapesTopEndCut
 import com.example.simpletextcomposeapplication.ui.theme.lightGray700
@@ -48,6 +50,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             MainScreen()
         }
+
+        val intent = Intent(this, MealsMainActivity::class.java)
+        startActivity(intent)
     }
 
 
