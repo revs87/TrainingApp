@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
 
-class MealsWebService(
+class CategoriesWebService(
     baseUrl: String = "https://www.themealdb.com/api/json/v1/1/",
     converterFactory: GsonConverterFactory = GsonConverterFactory.create()
 ) {
@@ -23,8 +23,8 @@ class MealsWebService(
 
     interface MealsApi {
         @GET("categories.php")
-        suspend fun getMeals(): CategoriesResponse
+        suspend fun getCategories(): CategoriesResponse
     }
 
-    suspend fun getMeals(): CategoriesResponse = api.getMeals()
+    suspend fun getCategories(): CategoriesResponse = api.getCategories()
 }

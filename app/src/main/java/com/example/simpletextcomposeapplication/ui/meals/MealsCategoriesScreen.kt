@@ -1,20 +1,22 @@
 package com.example.simpletextcomposeapplication.ui.meals
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -23,13 +25,13 @@ import com.example.simpletextcomposeapplication.model.response.CategoryResponse
 
 
 @Composable
-fun MealsCategoriesScreen() {
+fun MealsCategoriesScreen(navigationCallback: (String) -> Unit) {
     val viewModel: MealsCategoriesViewModel = viewModel() // bound to the Composable lifecycle
     val meals = viewModel.mealsState.value
 
     LazyColumn {
         itemsIndexed(items = meals) { index, item ->
-            MealCategory(category = item, index.isFirst(), index.isLast(meals.size))
+            MealCategory(category = item, index.isFirst(), index.isLast(meals.size), navigationCallback)
         }
     }
 }
@@ -46,9 +48,10 @@ fun MealCategory(
         "https://media.istockphoto.com/id/1282169219/photo/christmas-theme-charcuterie-top-view-table-scene-against-dark-wood.jpg"
     ),
     first: Boolean = false,
-    last: Boolean = false
+    last: Boolean = false,
+    navigationCallback: (String) -> Unit
 ) {
-    var visible by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
 
     Card(
         shape = RoundedCornerShape(8.dp),
@@ -65,8 +68,9 @@ fun MealCategory(
     ) {
         Row(
             modifier = Modifier
-                .clickable { visible = !visible }
                 .fillMaxWidth()
+                .animateContentSize()
+                .clickable { navigationCallback(category.id) }
                 .padding(top = 18.dp, bottom = 18.dp, start = 12.dp, end = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -74,18 +78,27 @@ fun MealCategory(
                 painter = rememberAsyncImagePainter(model = category.imageUrl),
                 modifier = Modifier
                     .weight(1f)
-                    .size(if (visible) 160.dp else 60.dp)
+                    .size(if (expanded) 160.dp else 60.dp)
                     .padding(end = 12.dp),
                 contentDescription = null
             )
             Column(
                 modifier = Modifier.weight(2f)
             ) {
-                Text(text = category.name, style = MaterialTheme.typography.h5, modifier = Modifier.padding(bottom = if (visible) 12.dp else 0.dp))
-                AnimatedVisibility(visible = visible) {
-                    Text(text = category.description, style = MaterialTheme.typography.body2, modifier = Modifier.alpha(ContentAlpha.medium))
-                }
+                Text(text = category.name, style = MaterialTheme.typography.h5, modifier = Modifier.padding(bottom = 8.dp))
+                Text(
+                    text = category.description,
+                    style = MaterialTheme.typography.body2,
+                    modifier = Modifier.alpha(ContentAlpha.medium),
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = if (expanded) 10 else 4
+                )
             }
+            Icon(
+                modifier = Modifier.alpha(ContentAlpha.medium).clickable { expanded = !expanded }.padding(8.dp).align(Alignment.CenterVertically),
+                imageVector = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
+                contentDescription = null
+            )
         }
     }
 }
@@ -94,5 +107,5 @@ fun MealCategory(
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    MealCategory()
+    MealCategory() {}
 }

@@ -9,13 +9,13 @@ import com.example.simpletextcomposeapplication.model.response.CategoryResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MealsCategoriesViewModel(private val repository: MealsRepository = MealsRepository()) : ViewModel() {
+class MealsCategoriesViewModel(private val repository: MealsRepository = MealsRepository.getInstance()) : ViewModel() {
 
     init {
-        viewModelScope.launch(Dispatchers.IO) { mealsState.value = getMeals() }
+        viewModelScope.launch(Dispatchers.IO) { mealsState.value = getCategories() }
     }
 
     val mealsState: MutableState<List<CategoryResponse>> = mutableStateOf(emptyList())
 
-    private suspend fun getMeals(): List<CategoryResponse> = repository.getMeals().categories
+    private suspend fun getCategories(): List<CategoryResponse> = repository.getCategories().categories
 }
