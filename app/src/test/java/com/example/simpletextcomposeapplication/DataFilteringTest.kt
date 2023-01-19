@@ -73,4 +73,28 @@ class DataFilteringTest {
             .map { it.first })                                        // [One, Two, Three]
         return list.distinctBy { it.lowercase() }
     }
+
+    @Test
+    fun test_isTen() {
+        Assert.assertFalse(isTen("aa6?9"))
+        Assert.assertTrue(isTen("acc?7??sss?3rr1??????5"))
+        Assert.assertTrue(isTen("arrb6??sss?4xxbl5???eee5"))
+    }
+
+
+    private fun isTen(str: String): Boolean {
+        val regex = "[1-9][?][\\D]*[?][\\D]*[?][1-9]".toRegex()
+
+        if (!regex.containsMatchIn(str)) { return false }
+
+        val subStr: String = regex.find(str)?.value ?: return false
+
+        println("subStr:$subStr")
+
+        val firstDigit = subStr.first().digitToInt()
+        val lastDigit = subStr.last().digitToInt()
+        if (firstDigit + lastDigit != 10) { return false }
+
+        return true
+    }
 }
