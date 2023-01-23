@@ -118,6 +118,58 @@ class LinkedLists {
         val nodes = ListNode(1).apply { next = ListNode(2).apply { next = ListNode(3).apply { next = ListNode(4).apply { next = ListNode(5).apply { next = ListNode(6) }  } } } }
         Assert.assertTrue(intArrayOf(4, 5, 6).contentEquals(middleNodeList(nodes)))
     }
+
+
+    /**
+     * For this challenge you will be manipulating an array.
+     *
+     * Find Intersection
+    Have the function FindIntersection(strArr) read the array of strings stored in strArr which will
+    contain 2 elements: the first element will represent a list of comma-separated numbers sorted in
+    ascending order, the second element will represent a second list of comma-separated numbers
+    (also sorted). Your goal is to return a comma-separated string containing the numbers that occur
+    in elements of strArr in sorted order. If there is no intersection, return the string false.
+    Examples
+    Input: ["1, 3, 4, 7, 13", "1, 2, 4, 13, 15"]
+    Output: 1,4,13
+    Input: ["1, 3, 9, 10, 17, 18", "1, 4, 9, 10"]
+    Output: 1,9,10
+
+     * */
+
+    private fun findIntersection(strArr: Array<String>): String {
+
+        val res: MutableList<Int> = mutableListOf()
+
+        val list1 = strArr[0].split(',').map { it.trim().toInt() }.toList()
+        val list2 = strArr[1].split(',').map { it.trim().toInt() }.toList()
+
+        res.addAll(list1.filter { list2.contains(it) })
+
+        if (res.isEmpty()) return "false"
+        return res.joinToString(separator = ", ")
+    }
+
+    @Test
+    fun test_intersectionEmpty() {
+        val arrays = arrayOf("3, 4, 7, 13", "1, 2, 12, 15")
+        println(findIntersection(arrays))
+        Assert.assertEquals("false", findIntersection(arrays))
+    }
+
+    @Test
+    fun test_intersectionA() {
+        val arrays = arrayOf("1, 3, 4, 7, 13", "1, 2, 4, 13, 15")
+        println(findIntersection(arrays))
+        Assert.assertEquals("1, 4, 13", findIntersection(arrays))
+    }
+
+    @Test
+    fun test_intersectionB() {
+        val arrays = arrayOf("1, 3, 9, 10, 17, 18", "1, 4, 9, 10")
+        println(findIntersection(arrays))
+        Assert.assertEquals("1, 9, 10", findIntersection(arrays))
+    }
 }
 
 class ListNode(var `val`: Int) {
