@@ -1,6 +1,5 @@
 package com.example.simpletextcomposeapplication.ui.meals
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -21,13 +20,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
-import com.example.simpletextcomposeapplication.model.response.CategoryResponse
+import com.example.simpletextcomposeapplication.domain.CategoryDomain
+import com.example.simpletextcomposeapplication.domain.response.CategoryResponse
 
 
 @Composable
 fun MealsCategoriesScreen(navigationCallback: (String) -> Unit) {
     val viewModel: MealsCategoriesViewModel = viewModel() // bound to the Composable lifecycle
-    val meals = viewModel.mealsState.value
+    val meals = viewModel.categoriesState.value
 
     LazyColumn {
         itemsIndexed(items = meals) { index, item ->
@@ -41,7 +41,7 @@ private fun Int.isLast(size: Int): Boolean = this == size - 1
 
 @Composable
 fun MealCategory(
-    category: CategoryResponse = CategoryResponse(
+    category: CategoryDomain = CategoryDomain(
         "id",
         "name",
         "description",

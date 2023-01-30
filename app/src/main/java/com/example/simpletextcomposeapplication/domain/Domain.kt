@@ -1,4 +1,3 @@
 package com.example.simpletextcomposeapplication.domain
 
-class Domain {
-}
+open class Domain

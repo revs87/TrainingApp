@@ -4,18 +4,19 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.simpletextcomposeapplication.model.MealsRepository
-import com.example.simpletextcomposeapplication.model.response.CategoryResponse
+import com.example.simpletextcomposeapplication.domain.CategoryDomain
+import com.example.simpletextcomposeapplication.repository.CategoryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MealsCategoriesViewModel(private val repository: MealsRepository = MealsRepository.getInstance()) : ViewModel() {
+
+class MealsCategoriesViewModel(private val repository: CategoryRepository = CategoryRepository.getInstance()) : ViewModel() {
 
     init {
-        viewModelScope.launch(Dispatchers.IO) { mealsState.value = getCategories() }
+        viewModelScope.launch(Dispatchers.IO) { categoriesState.value = getCategories() }
     }
 
-    val mealsState: MutableState<List<CategoryResponse>> = mutableStateOf(emptyList())
+    val categoriesState: MutableState<List<CategoryDomain>> = mutableStateOf(emptyList())
 
-    private suspend fun getCategories(): List<CategoryResponse> = repository.getCategories().categories
+    private suspend fun getCategories(): List<CategoryDomain> = repository.getCategories()
 }

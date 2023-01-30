@@ -10,7 +10,7 @@ class CategoriesWebService(
     baseUrl: String = "https://www.themealdb.com/api/json/v1/1/",
     converterFactory: GsonConverterFactory = GsonConverterFactory.create()
 ) {
-    private val api: MealsApi
+    private val api: CategoriesApi
 
     init {
         val retrofit = Retrofit.Builder()
@@ -18,10 +18,10 @@ class CategoriesWebService(
             .addConverterFactory(converterFactory)
             .build()
 
-        api = retrofit.create(MealsApi::class.java)
+        api = retrofit.create(CategoriesApi::class.java)
     }
 
-    interface MealsApi {
+    interface CategoriesApi {
         @GET("categories.php")
         suspend fun getCategories(): CategoriesResponse
     }
