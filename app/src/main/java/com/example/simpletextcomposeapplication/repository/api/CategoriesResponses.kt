@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication.model.response
+package com.example.simpletextcomposeapplication.domain.response
 
 import com.google.gson.annotations.SerializedName
 
