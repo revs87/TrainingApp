@@ -45,4 +45,63 @@ class Words {
     fun test_wordWithBigNumbers() {
         Assert.assertTrue("567234234" == longestWord("Hello world123 567234234!"))
     }
+
+
+    /**
+     *
+     * Given the input of words: "A a b b C"
+     * It shall return a map of <word, numberOfOccurrences>
+     *     output:
+     *              A, 1
+     *              a, 1
+     *              b, 2
+     *              C, 1
+     *
+     * */
+
+    private fun wordCounter(input: String): Map<String, Int> {
+        val data = mutableMapOf<String, Int>()
+        val words = input.split(' ')
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
+        words.map {
+            if (data.containsKey(it)) {
+                data.put(it, data[it]?.plus(1) ?: 0)
+            } else {
+                data.put(it, 1)
+            }
+        }
+        //data.map { println("${it.key} ${it.value}") }
+        return data
+    }
+
+    private fun assertMapEquals(expected: Map<String, Int>, actual: Map<String, Int>) {
+        Assert.assertEquals(expected.keys.toList(), actual.keys.toList())
+        Assert.assertEquals(expected.values.toList(), actual.values.toList())
+    }
+
+    @Test
+    fun test_wordCount() {
+        val input = "I am Rui Vieira Vieira"
+        val expected = mapOf(
+            "I" to 1,
+            "am" to 1,
+            "Rui" to 1,
+            "Vieira" to 2,
+        )
+        assertMapEquals(expected, wordCounter(input))
+    }
+
+    @Test
+    fun test_wordCount_withLeadingAndTrailingSpaces() {
+        val input = "  I  am  Rui Vieira  Vieira "
+        val expected = mapOf(
+            "I" to 1,
+            "am" to 1,
+            "Rui" to 1,
+            "Vieira" to 2,
+        )
+        assertMapEquals(expected, wordCounter(input))
+    }
+
 }
