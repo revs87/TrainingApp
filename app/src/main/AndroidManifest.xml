@@ -46,6 +46,10 @@
             android:name=".recyclerviewapp.RecyclerviewAppActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".gendarizeapp.GendarizeActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
