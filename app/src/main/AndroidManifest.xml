@@ -22,7 +22,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.SimpleTextComposeApplication">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,7 +43,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".adentisapp.AdentisAppActivity"
+            android:name=".recyclerviewapp.RecyclerviewAppActivity"
             android:exported="true" />
 
     </application>
