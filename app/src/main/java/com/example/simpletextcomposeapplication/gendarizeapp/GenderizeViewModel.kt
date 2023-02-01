@@ -17,15 +17,25 @@ class GenderizeViewModel(
 ) : BaseViewModel<UiState>() {
 
     /* Actual data */
-    private val contentList = mutableListOf<String>().also { it.add("Results:") }
-    private fun addToList(profile: GenderProfile) = contentList.add("Name:${profile.name} Gender:${profile.gender}")
+    private val maleContentList = mutableListOf<String>().also { it.add("Male results:") }
+    private val femaleContentList = mutableListOf<String>().also { it.add("Female results:") }
+    private fun addToList(profile: GenderProfile, list: MutableList<String>) = list.add("Name:${profile.name}")
 
     /* Compose UI data linkage */
-    val listLiveData = MutableLiveData<List<String>>()
+    val maleListLiveData = MutableLiveData<List<String>>()
+    val femaleListLiveData = MutableLiveData<List<String>>()
     fun updateList(profile: GenderProfile) {
-        addToList(profile)
         setName("")
-        listLiveData.value = contentList.toList()
+        when (profile.gender) {
+            "male" -> {
+                addToList(profile, maleContentList)
+                maleListLiveData.value = maleContentList.toList()
+            }
+            "female" -> {
+                addToList(profile, femaleContentList)
+                femaleListLiveData.value = femaleContentList.toList()
+            }
+        }
     }
     val nameLiveData = MutableLiveData<String>()
     fun setName(name: String) { nameLiveData.value = name }

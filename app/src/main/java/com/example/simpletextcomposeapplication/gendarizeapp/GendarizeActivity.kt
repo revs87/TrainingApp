@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -26,6 +26,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.simpletextcomposeapplication.R
 import com.example.simpletextcomposeapplication.gendarizeapp.repository.api.UiState
 import com.example.simpletextcomposeapplication.theme.MyTheme
+import com.example.simpletextcomposeapplication.theme.Purple200
+import com.example.simpletextcomposeapplication.theme.Teal200
 
 class GendarizeActivity : ComponentActivity() {
 
@@ -44,7 +46,8 @@ class GendarizeActivity : ComponentActivity() {
 fun GendarizeMyNameApp() {
     val viewModel: GenderizeViewModel = viewModel()
     val name by viewModel.nameLiveData.observeAsState("")
-    val contentList by viewModel.listLiveData.observeAsState(listOf("Results:"))
+    val maleContentList by viewModel.maleListLiveData.observeAsState(listOf("Male results:"))
+    val femaleContentList by viewModel.femaleListLiveData.observeAsState(listOf("Female results:"))
 
     val uiState by viewModel.uiState().observeAsState()
     val loading = uiState == UiState.Loading
@@ -66,40 +69,56 @@ fun GendarizeMyNameApp() {
                 viewModel.getGender(name)
             }
             Box(
-                modifier = Modifier.fillMaxWidth().align(CenterHorizontally)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(CenterHorizontally)
             ) {
-                LazyColumn(
+                Row(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    items(contentList) { item ->
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
-                            elevation = 4.dp,
-                            backgroundColor = Color.White,
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .fillMaxWidth(),
-                                style = TextStyle(
-                                    fontFamily = FontFamily.Monospace,
-                                    fontWeight = FontWeight.Bold
-                                ),
-                                text = item,
-                            )
+                    LazyColumn(
+                        modifier = Modifier.fillMaxWidth(0.5f)
+                    ) {
+                        itemsIndexed(maleContentList) { index, item ->
+                            Profile(item, if (index == 0) Color.White else Teal200)
+                        }
+                    }
+                    LazyColumn(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        itemsIndexed(femaleContentList) { index, item ->
+                            Profile(item, if (index == 0) Color.White else Purple200)
                         }
                     }
                 }
                 if (loading) {
                     CircularProgressIndicator(
-                        color = MaterialTheme.colors.primary,
-                        strokeWidth = 3.dp
+                        color = MaterialTheme.colors.primary, strokeWidth = 3.dp
                     )
                 }
             }
         }
+    }
+}
+
+@Composable
+fun Profile(item: String, backgroundColor: Color) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
+        elevation = 4.dp,
+        backgroundColor = backgroundColor,
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            style = TextStyle(
+                fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold
+            ),
+            text = item,
+        )
     }
 }
 
@@ -111,8 +130,7 @@ fun InsertNameTextField(
     buttonAction: () -> Unit = {}
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
     ) {
         TextField(
             modifier = Modifier
@@ -122,13 +140,9 @@ fun InsertNameTextField(
             onValueChange = textFieldUpdate,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
-        Button(
-            enabled = textFieldValue.isNotBlank(),
-            onClick = { buttonAction.invoke() }
-        ) {
+        Button(enabled = textFieldValue.isNotBlank(), onClick = { buttonAction.invoke() }) {
             Text(
-                text = "Add name",
-                style = MaterialTheme.typography.body1
+                text = "Add name", style = MaterialTheme.typography.body1
             )
         }
     }
