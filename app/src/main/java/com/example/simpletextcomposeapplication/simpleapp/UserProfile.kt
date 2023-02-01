@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication
+package com.example.simpletextcomposeapplication.simpleapp
 
 data class UserProfile constructor(val id: Int, val name: String, val status: Boolean, val pictureUrl: String)
 

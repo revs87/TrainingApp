@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication.ui.meals
+package com.example.simpletextcomposeapplication.categoriesapp.ui.meals
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -20,8 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
-import com.example.simpletextcomposeapplication.domain.CategoryDomain
-import com.example.simpletextcomposeapplication.domain.response.CategoryResponse
+import com.example.simpletextcomposeapplication.categoriesapp.repository.domain.CategoryDomain
 
 
 @Composable

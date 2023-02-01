@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication
+package com.example.simpletextcomposeapplication.simpleapp
 
 import android.content.Intent
 import android.os.Bundle
@@ -38,20 +38,21 @@ import androidx.navigation.navArgument
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
-import com.example.simpletextcomposeapplication.ui.MealsMainActivity
-import com.example.simpletextcomposeapplication.ui.theme.MyTheme
-import com.example.simpletextcomposeapplication.ui.theme.ShapesTopEndCut
-import com.example.simpletextcomposeapplication.ui.theme.lightGray700
-import com.example.simpletextcomposeapplication.ui.theme.lightGreen200
+import com.example.simpletextcomposeapplication.R
+import com.example.simpletextcomposeapplication.categoriesapp.CategoriesAppActivity
+import com.example.simpletextcomposeapplication.theme.MyTheme
+import com.example.simpletextcomposeapplication.theme.ShapesTopEndCut
+import com.example.simpletextcomposeapplication.theme.lightGray700
+import com.example.simpletextcomposeapplication.theme.lightGreen200
 
-class MainActivity : ComponentActivity() {
+class SimpleAppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MainScreen()
         }
 
-        val intent = Intent(this, MealsMainActivity::class.java)
+        val intent = Intent(this, CategoriesAppActivity::class.java)
         startActivity(intent)
     }
 

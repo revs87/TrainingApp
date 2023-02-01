@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication.ui.theme
+package com.example.simpletextcomposeapplication.theme
 
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape

@@ -1,8 +1,8 @@
-package com.example.simpletextcomposeapplication.repository
+package com.example.simpletextcomposeapplication.categoriesapp.repository
 
-import com.example.simpletextcomposeapplication.domain.CategoryDomain
+import com.example.simpletextcomposeapplication.categoriesapp.repository.domain.CategoryDomain
 import com.example.simpletextcomposeapplication.domain.response.CategoryResponse
-import com.example.simpletextcomposeapplication.repository.api.CategoriesWebService
+import com.example.simpletextcomposeapplication.categoriesapp.repository.api.CategoriesWebService
 
 class CategoryRepository(private val webService: CategoriesWebService = CategoriesWebService()) {
     private var cachedCategories: List<CategoryDomain>? = null

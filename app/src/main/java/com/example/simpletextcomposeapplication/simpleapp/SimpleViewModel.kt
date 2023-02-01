@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication
+package com.example.simpletextcomposeapplication.simpleapp
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

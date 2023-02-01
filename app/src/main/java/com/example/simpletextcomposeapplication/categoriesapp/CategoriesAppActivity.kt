@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication.ui
+package com.example.simpletextcomposeapplication.categoriesapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,12 +10,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.simpletextcomposeapplication.ui.meals.CategoryDetailsScreen
-import com.example.simpletextcomposeapplication.ui.meals.MealsCategoriesScreen
-import com.example.simpletextcomposeapplication.ui.meals.MealsCategoryDetailsViewModel
-import com.example.simpletextcomposeapplication.ui.theme.MyTheme
+import com.example.simpletextcomposeapplication.categoriesapp.ui.meals.CategoryDetailsScreen
+import com.example.simpletextcomposeapplication.categoriesapp.ui.meals.MealsCategoriesScreen
+import com.example.simpletextcomposeapplication.categoriesapp.ui.meals.MealsCategoryDetailsViewModel
+import com.example.simpletextcomposeapplication.theme.MyTheme
 
-class MealsMainActivity : ComponentActivity() {
+class CategoriesAppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

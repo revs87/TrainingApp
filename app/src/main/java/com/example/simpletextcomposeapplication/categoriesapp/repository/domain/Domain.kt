@@ -1,0 +1,3 @@
+package com.example.simpletextcomposeapplication.categoriesapp.repository.domain
+
+open class Domain

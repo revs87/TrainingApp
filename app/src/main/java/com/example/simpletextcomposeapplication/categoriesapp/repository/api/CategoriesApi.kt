@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication.repository.api
+package com.example.simpletextcomposeapplication.categoriesapp.repository.api
 
 import com.example.simpletextcomposeapplication.domain.response.CategoriesResponse
 import retrofit2.Retrofit

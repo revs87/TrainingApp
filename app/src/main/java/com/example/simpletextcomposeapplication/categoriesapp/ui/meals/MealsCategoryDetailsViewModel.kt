@@ -1,12 +1,11 @@
-package com.example.simpletextcomposeapplication.ui.meals
+package com.example.simpletextcomposeapplication.categoriesapp.ui.meals
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.simpletextcomposeapplication.domain.CategoryDomain
-import com.example.simpletextcomposeapplication.repository.CategoryRepository
-import com.example.simpletextcomposeapplication.domain.response.CategoryResponse
+import com.example.simpletextcomposeapplication.categoriesapp.repository.domain.CategoryDomain
+import com.example.simpletextcomposeapplication.categoriesapp.repository.CategoryRepository
 import kotlinx.coroutines.launch
 
 class MealsCategoryDetailsViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
