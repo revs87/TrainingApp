@@ -1,6 +1,5 @@
 package com.example.simpletextcomposeapplication.recyclerviewapp
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
@@ -35,20 +34,12 @@ import com.example.simpletextcomposeapplication.theme.MyTheme
 
 class RecyclerviewAppActivity : ComponentActivity() {
 
-    companion object {
-        @SuppressLint("StaticFieldLeak")
-        var naiveContext: Context? = null
-            private set
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        naiveContext = null
-    }
+    private lateinit var context: Context
+    fun getThisContext() = context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        naiveContext = baseContext
+        context = this
 
         val dummyContentList = (0..100).map { it.toString() }
 
@@ -113,13 +104,19 @@ class RecyclerviewAppActivity : ComponentActivity() {
 
         binding.root.background = getDrawable(R.color.yellow_banana)
         binding.recyclerView.layoutManager = LinearLayoutManager(binding.root.context).apply { orientation = LinearLayoutManager.VERTICAL }
-        binding.recyclerView.adapter = RecyclerViewAdapter(dummyContentList.toMutableList())
+        binding.recyclerView.adapter = RecyclerViewAdapter(
+            dummyContentList.toMutableList(),
+            Pair(
+                ContextCompat.getColor(getThisContext(), androidx.constraintlayout.widget.R.color.material_grey_300),
+                ContextCompat.getColor(getThisContext(), R.color.white)
+            )
+        )
 
 //        (binding.recyclerView.adapter as RecyclerViewAdapter).updateMeTo(9, 555)
     }
 }
 
-class RecyclerViewAdapter(private val items: MutableList<String>) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
+class RecyclerViewAdapter(private val items: MutableList<String>, private val bgColors: Pair<Int, Int>) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
     class MyViewItems(val mycard: CardView, val mytext: TextView)
     class MyViewHolder(mainView: View, val items: MyViewItems) : RecyclerView.ViewHolder(mainView)
 
@@ -135,7 +132,7 @@ class RecyclerViewAdapter(private val items: MutableList<String>) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.items.mycard.setBackgroundColor(ContextCompat.getColor(RecyclerviewAppActivity.naiveContext!!, if (position%2 == 0) androidx.constraintlayout.widget.R.color.material_grey_300 else R.color.white))
+        holder.items.mycard.setBackgroundColor(if (position % 2 == 0) bgColors.first else bgColors.second)
         holder.items.mytext.text = items[position]
         holder.items.mytext.setTypeface(null, Typeface.BOLD);
     }
