@@ -1,16 +1,19 @@
 package com.example.simpletextcomposeapplication.gendarizeapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -19,6 +22,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +32,7 @@ import com.example.simpletextcomposeapplication.gendarizeapp.repository.api.UiSt
 import com.example.simpletextcomposeapplication.theme.MyTheme
 import com.example.simpletextcomposeapplication.theme.Purple200
 import com.example.simpletextcomposeapplication.theme.Teal200
+import kotlinx.coroutines.launch
 
 class GendarizeActivity : ComponentActivity() {
 
@@ -42,6 +47,7 @@ class GendarizeActivity : ComponentActivity() {
 
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun GendarizeMyNameApp() {
     val viewModel: GenderizeViewModel = viewModel()
@@ -49,13 +55,20 @@ fun GendarizeMyNameApp() {
     val maleContentList by viewModel.maleListLiveData.observeAsState(listOf("Male results:"))
     val femaleContentList by viewModel.femaleListLiveData.observeAsState(listOf("Female results:"))
 
+    val maleListState = rememberLazyListState()
+    val femaleListState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+
     val uiState by viewModel.uiState().observeAsState()
     val loading = uiState == UiState.Loading
     val error = uiState is UiState.Error
     if (uiState is UiState.Success) {
         viewModel.updateList((uiState as UiState.Success).gProfile)
+        coroutineScope.launch {
+            maleListState.animateScrollToItem(maleContentList.size-1)
+            femaleListState.animateScrollToItem(femaleContentList.size-1)
+        }
     }
-
 
     Surface(
         modifier = Modifier.fillMaxSize(), color = colorResource(R.color.yellow_banana)
@@ -77,6 +90,7 @@ fun GendarizeMyNameApp() {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     LazyColumn(
+                        state = maleListState,
                         modifier = Modifier.fillMaxWidth(0.5f)
                     ) {
                         itemsIndexed(maleContentList) { index, item ->
@@ -84,6 +98,7 @@ fun GendarizeMyNameApp() {
                         }
                     }
                     LazyColumn(
+                        state = femaleListState,
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         itemsIndexed(femaleContentList) { index, item ->
@@ -138,7 +153,7 @@ fun InsertNameTextField(
                 .padding(8.dp),
             value = textFieldValue,
             onValueChange = textFieldUpdate,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done, keyboardType = KeyboardType.Text)
         )
         Button(enabled = textFieldValue.isNotBlank(), onClick = { buttonAction.invoke() }) {
             Text(
@@ -147,4 +162,3 @@ fun InsertNameTextField(
         }
     }
 }
-

@@ -8,6 +8,8 @@ import com.example.simpletextcomposeapplication.gendarizeapp.repository.api.Gend
 import com.example.simpletextcomposeapplication.gendarizeapp.repository.api.GenderizeService
 import com.example.simpletextcomposeapplication.gendarizeapp.repository.api.UiState
 import com.example.simpletextcomposeapplication.gendarizeapp.repository.domain.GenderProfile
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -53,18 +55,60 @@ class GenderizeViewModel(
             }
         }
     }
-    fun getGenderByCountry(name: String, countryId: String = "PT") {
+
+    private val baseNames = listOf(
+        "Marco;M",
+        "Maria;F",
+        "Joao;M",
+        "Luis;M",
+        "Ana;F",
+        "Isabel;M",
+        "Rita;F",
+        "Luis;M",
+        "Catarina;F",
+        "Paulo;M",
+        "Marina;F",
+        "Luisa;F",
+        "Marcia;F",
+        "Pedro;M",
+        "Joel;M",
+        "Antonio;M",
+        "Marisa;F",
+        "Sofia;F",
+        "Jose;M",
+        "Patricia;F"
+    )
+
+    /**
+     *
+     * Mostrar o conteúdo das lista numa Recycler View, ordenado alfabeticamente.Identificar com
+     * uma cor distinta o genero, e indicar com texto na lista o nome e genero.
+     *
+     */
+    private fun addBaseNames() {
         viewModelScope.launch {
-            uiState.value = UiState.Loading
             try {
-                val gender = api.getGenderByCountry(name, countryId)
-                uiState.value = UiState.Success(gender.toDomain())
+                val listOfGenders = baseNames
+                    .map { name -> name.split(';')[0] }
+                    .distinct()
+                    .sorted()
+                    .map { firstName -> async { api.getGenderByCountry(firstName, "PT") } }
+                    .awaitAll()
+                    .map { genderResponse -> genderResponse.toDomain() }
+                    .toList() // no need for toList -> just to see the return type above on each line
+                listOfGenders.forEach { addToList(it, if (it.gender == "male") maleContentList else femaleContentList) }
+                maleListLiveData.value = maleContentList.toList()
+                femaleListLiveData.value = femaleContentList.toList()
             } catch (e: Exception) {
                 Timber.e(e)
-                uiState.value = UiState.Error("Network request failed!")
             }
         }
     }
+
+    init {
+        addBaseNames()
+    }
+
 }
 
 private fun GenderProfileResponse.toDomain(): GenderProfile = GenderProfile(this.name, this.gender)
