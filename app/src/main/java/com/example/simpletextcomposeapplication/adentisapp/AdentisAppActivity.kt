@@ -100,8 +100,8 @@ class MyRecyclerView(private val profileData: List<GenderProfile>, private val b
     override fun getItemCount() = profileData.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding: ListItemBinding = ListItemBinding.inflate(LayoutInflater.from(parent.context))
-        return MyViewHolder(binding.root, MyViewItems(binding.myText))
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+        return MyViewHolder(view.rootView, MyViewItems(view.findViewById(R.id.my_text)))
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {

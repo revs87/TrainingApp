@@ -50,6 +50,10 @@
             android:name=".gendarizeapp.GendarizeActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".adentisapp.AdentisAppActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
