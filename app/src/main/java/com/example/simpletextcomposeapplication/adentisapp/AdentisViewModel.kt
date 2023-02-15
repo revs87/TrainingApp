@@ -71,6 +71,18 @@ class AdentisViewModel : ViewModel(), IAdentisViewModel {
             .toSortedMap(compareBy<GenderProfile> { it.name }.thenBy { namesData[it] })
             .map { GenderProfile(it.key.name, it.key.gender, it.value) }
 
+
+
+//        val sorte2 = baseNames
+//            .distinct()
+//            .map { nameGender ->
+//                val split = nameGender.split(';')
+//                GenderProfile(split[0], split[1])
+//            }
+//            .map { GenderProfile(it.name, it.gender, baseNames.count { p -> p == it.name }) }
+//
+
+
         listLiveData.value = sortedNamesData
     }
 
