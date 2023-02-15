@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication.adentisapp
+package com.example.simpletextcomposeapplication.jciapp
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -66,4 +66,3 @@ class MyRecyclerView(private val profileData: List<GenderProfile>, private val b
         })
     }
 }
-
