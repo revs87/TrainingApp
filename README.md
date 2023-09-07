@@ -1,1 +1,1 @@
-# SimpleTextComposeApplication
+# TrainingApp
