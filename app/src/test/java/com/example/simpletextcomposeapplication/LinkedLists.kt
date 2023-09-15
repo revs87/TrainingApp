@@ -3,6 +3,7 @@ package com.example.simpletextcomposeapplication
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.Assert
+import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 
 class LinkedLists {
@@ -230,9 +231,49 @@ class LinkedLists {
         assertThat(actual).isEqualTo(expected)
     }
 
+    @RepeatedTest(100)
+    fun `GIVEN a list of Person(fullName, age) randomly ordered, EXPECT the same Map of decades as keys and a sorted list of Person as values`() {
+        val given: List<Person> = firstNames.indices
+            .map { index -> generateFullName(index) }
+            .shuffled()
+
+        val expected: Map<String, List<Person>> = mapOf(
+            "0 - 10" to listOf(
+                Person("Jane Johnson", 5),
+            ),
+            "20 - 30" to listOf(
+                Person("Emily Brown", 24),
+                Person("Michael Taylor", 23),
+            ),
+            "30 - 40" to listOf(
+                Person("Chris Anderson", 36),
+                Person("David Davis", 30),
+                Person("Sarah Miller", 39),
+            ),
+            "40 - 50" to listOf(
+                Person("Daniel Harris", 41),
+                Person("Laura Martin", 41),
+            ),
+            "50 - 60" to listOf(
+                Person("Jessica Clark", 59),
+            ),
+            "90 - 100" to listOf(
+                Person("John Smith", 91),
+            ),
+        )
+
+        val actual = given
+            .sortedBy { it.age }
+            .groupBy { it.age.asInterval() }
+            .mapValues { (_, values) -> values.sortedBy { person -> person.fullName } }
+            .toMap()
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+
 
 }
-
 private fun Int.asInterval(): String {
     val lowerBound = (this / 10) * 10
     val upperBound = lowerBound + 10
