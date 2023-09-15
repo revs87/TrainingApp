@@ -184,9 +184,9 @@ class LinkedLists {
 
     private data class Person(val fullName: String, val age: Int)
 
-    private val firstNames = listOf("John", "Jane", "Michael", "Emily", "David", "Sarah", "Chris", "Laura", "Daniel", "Jessica")
-    private val lastNames = listOf("Smith", "Johnson", "Taylor", "Brown", "Davis", "Miller", "Anderson", "Martin", "Harris", "Clark")
-    private val ages = listOf(91, 5, 23, 24, 30, 39, 36, 41, 41, 59)
+    private val firstNames = listOf("John", "Jane", "Michael", "Emily", "David", "Sarah", "Chris", "Laura", "Daniel", "Jessica", "Bruce", "Zeke", "Daniel")
+    private val lastNames = listOf("Smith", "Johnson", "Taylor", "Brown", "Davis", "Miller", "Anderson", "Martin", "Harris", "Clark", "Johnson", "Almeida", "Johnson")
+    private val ages = listOf(91, 5, 23, 24, 30, 39, 36, 41, 41, 59, 8, 1, 3)
 
     private fun generateFullName(index: Int): Person = Person(
         fullName = "${firstNames[index]} ${lastNames[index]}",
@@ -199,7 +199,10 @@ class LinkedLists {
 
         val expected: Map<String, List<Person>> = mapOf(
             "0 - 10" to listOf(
+                Person("Bruce Johnson", 8),
+                Person("Daniel Johnson", 3),
                 Person("Jane Johnson", 5),
+                Person("Zeke Almeida", 1),
             ),
             "20 - 30" to listOf(
                 Person("Emily Brown", 24),
@@ -239,7 +242,10 @@ class LinkedLists {
 
         val expected: Map<String, List<Person>> = mapOf(
             "0 - 10" to listOf(
+                Person("Bruce Johnson", 8),
+                Person("Daniel Johnson", 3),
                 Person("Jane Johnson", 5),
+                Person("Zeke Almeida", 1),
             ),
             "20 - 30" to listOf(
                 Person("Emily Brown", 24),
@@ -266,6 +272,77 @@ class LinkedLists {
             .sortedBy { it.age }
             .groupBy { it.age.asInterval() }
             .mapValues { (_, values) -> values.sortedBy { person -> person.fullName } }
+            .toMap()
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+
+    @Test
+    fun `GIVEN a list of Person(fullName, age), EXPECT a Map of decades, a Map of lastNames and a list of Persons as values sorted by descendant age`() {
+        val given: List<Person> = firstNames.indices.map { index -> generateFullName(index) }
+
+        val expected: Map<String, Map<String, List<Person>>> = mapOf(
+            "0 - 10" to
+                    mapOf(
+                        "Almeida" to listOf(
+                            Person("Zeke Almeida", 1),
+                        ),
+                        "Johnson" to listOf(
+                            Person("Bruce Johnson", 8),
+                            Person("Jane Johnson", 5),
+                            Person("Daniel Johnson", 3),
+                        ),
+                    ),
+            "20 - 30" to
+                    mapOf(
+                        "Brown" to listOf(
+                            Person("Emily Brown", 24),
+                        ),
+                        "Taylor" to listOf(
+                            Person("Michael Taylor", 23),
+                        ),
+                    ),
+            "30 - 40" to
+                    mapOf(
+                        "Anderson" to listOf(
+                            Person("Chris Anderson", 36),
+                        ),
+                        "Davis" to listOf(
+                            Person("David Davis", 30),
+                        ),
+                        "Miller" to listOf(
+                            Person("Sarah Miller", 39),
+                        ),
+                    ),
+            "40 - 50" to
+                    mapOf(
+                        "Harris" to listOf(
+                            Person("Daniel Harris", 41),
+                        ),
+                        "Martin" to listOf(
+                            Person("Laura Martin", 41),
+                        ),
+                    ),
+            "50 - 60" to
+                    mapOf(
+                        "Clark" to listOf(
+                            Person("Jessica Clark", 59),
+                        ),
+                    ),
+            "90 - 100" to
+                    mapOf(
+                        "Smith" to listOf(
+                            Person("John Smith", 91),
+                        ),
+                    ),
+        )
+
+        val actual = given
+            .sortedBy { it.age }
+            .groupBy { it.age.asInterval() }
+            .mapValues { (_, values) -> values.groupBy { it.fullName.split(" ")[1] } }
+            .mapValues { (_, values) -> values.mapValues { (_, lastNames) -> lastNames.sortedByDescending { it.age } } }
             .toMap()
 
         assertThat(actual).isEqualTo(expected)
