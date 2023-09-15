@@ -1,7 +1,8 @@
 package com.example.simpletextcomposeapplication
 
-import org.junit.Assert
-import org.junit.Test
+import assertk.assertThat
+import assertk.assertions.isTrue
+import org.junit.jupiter.api.Test
 
 class DataFilteringTest {
 
@@ -58,7 +59,7 @@ class DataFilteringTest {
     fun test_uniqueStringCapsFree() {
         val expected = listOf("ONE", "Two", "Three")
         val list = listOf("ONE", "One", "ONE", "Two", "Three")
-        Assert.assertTrue(expected.toTypedArray().contentEquals(getUniqueCapsFree(list).toTypedArray()))
+        assertThat(expected.toTypedArray().contentEquals(getUniqueCapsFree(list).toTypedArray())).isTrue()
     }
 
     private fun getUniqueCapsFree(list: List<String>): List<String> {
@@ -105,9 +106,9 @@ class DataFilteringTest {
 
     @Test
     fun test_isTen() {
-        Assert.assertFalse(isTen("aa6?9"))
-        Assert.assertTrue(isTen("acc?7??sss?3rr1??????5"))
-        Assert.assertTrue(isTen("arrb6??sss?4xxbl5???eee5"))
+        assert(isTen("aa6?9"))
+        assert(isTen("acc?7??sss?3rr1??????5"))
+        assert(isTen("arrb6??sss?4xxbl5???eee5"))
     }
 
 }

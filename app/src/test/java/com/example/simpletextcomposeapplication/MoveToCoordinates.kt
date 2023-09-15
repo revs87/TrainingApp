@@ -1,6 +1,6 @@
 package com.example.simpletextcomposeapplication
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class MoveToCoordinates {
 
