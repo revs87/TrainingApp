@@ -1,5 +1,7 @@
 package com.example.simpletextcomposeapplication
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import org.junit.Assert
 import org.junit.jupiter.api.Test
 
@@ -170,6 +172,71 @@ class LinkedLists {
         println(findIntersection(arrays))
         Assert.assertEquals("1, 9, 10", findIntersection(arrays))
     }
+
+    /**
+     * Given a list of Person(fullName, age) provide a list as follows:
+     * - with a Header listing by age decades {below 10s, 10 - 20, 20 - 30, etc}
+     * - with a Subheader listing by lastname
+     * - each Subheader contains the correspondent persons object
+     * - sort all headers, subheaders and content by alphanumeric
+     * */
+
+    private data class Person(val fullName: String, val age: Int)
+
+    private val firstNames = listOf("John", "Jane", "Michael", "Emily", "David", "Sarah", "Chris", "Laura", "Daniel", "Jessica")
+    private val lastNames = listOf("Smith", "Johnson", "Taylor", "Brown", "Davis", "Miller", "Anderson", "Martin", "Harris", "Clark")
+    private val ages = listOf(91, 5, 23, 24, 30, 39, 36, 41, 41, 59)
+
+    private fun generateFullName(index: Int): Person = Person(
+        fullName = "${firstNames[index]} ${lastNames[index]}",
+        age = ages[index]
+    )
+
+    @Test
+    fun `GIVEN a list of Person(fullName, age), EXPECT a Map of decades as keys and a sorted list of Person as values`() {
+        val given: List<Person> = firstNames.indices.map { index -> generateFullName(index) }
+
+        val expected: Map<String, List<Person>> = mapOf(
+            "0 - 10" to listOf(
+                Person("Jane Johnson", 5),
+            ),
+            "20 - 30" to listOf(
+                Person("Emily Brown", 24),
+                Person("Michael Taylor", 23),
+            ),
+            "30 - 40" to listOf(
+                Person("Chris Anderson", 36),
+                Person("David Davis", 30),
+                Person("Sarah Miller", 39),
+            ),
+            "40 - 50" to listOf(
+                Person("Daniel Harris", 41),
+                Person("Laura Martin", 41),
+            ),
+            "50 - 60" to listOf(
+                Person("Jessica Clark", 59),
+            ),
+            "90 - 100" to listOf(
+                Person("John Smith", 91),
+            ),
+        )
+
+        val actual = given
+            .sortedBy { it.age }
+            .groupBy { it.age.asInterval() }
+            .mapValues { (_, values) -> values.sortedBy { person -> person.fullName } }
+            .toMap()
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+
+}
+
+private fun Int.asInterval(): String {
+    val lowerBound = (this / 10) * 10
+    val upperBound = lowerBound + 10
+    return "$lowerBound - $upperBound"
 }
 
 class ListNode(var `val`: Int) {
