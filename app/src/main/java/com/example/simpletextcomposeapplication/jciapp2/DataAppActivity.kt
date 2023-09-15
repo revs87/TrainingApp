@@ -13,8 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,8 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -38,8 +36,7 @@ class DataAppActivity : ComponentActivity(), Observer<List<Data>> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val owner = ViewModelStoreOwner { ViewModelStore() }
-        val viewModel: DataViewModel = ViewModelProvider(owner)[DataViewModelImpl::class.java]
+        val viewModel: DataViewModel = ViewModelProvider(this)[DataViewModelImpl::class.java]
         viewModel.getLiveData().observe(this, this)
         viewModel.getData()
     }

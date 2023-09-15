@@ -8,10 +8,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -53,14 +54,16 @@ fun CategoryDetailsScreen(category: CategoryDomain? = CategoryDomain("id", "name
     val imageSize by animateDpAsState(targetValue = max(60.dp, 165.dp * offset))
 
     Surface(
-        color = MaterialTheme.colors.background
+        color = MaterialTheme.colorScheme.background
     ) {
         Column {
-            Surface(elevation = 4.dp) {
+            Surface(shadowElevation = 4.dp) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Card(
                         modifier = Modifier.padding(16.dp),
-                        backgroundColor = MaterialTheme.colors.background,
+                        colors = CardDefaults.cardColors(
+                            contentColor = MaterialTheme.colorScheme.background
+                        ),
                         shape = CircleShape,
                         border = BorderStroke(
                             width = 2.dp,

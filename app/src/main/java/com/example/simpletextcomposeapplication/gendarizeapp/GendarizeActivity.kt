@@ -9,7 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -108,7 +108,7 @@ fun GendarizeMyNameApp() {
                 }
                 if (loading) {
                     CircularProgressIndicator(
-                        color = MaterialTheme.colors.primary, strokeWidth = 3.dp
+                        color = MaterialTheme.colorScheme.primary, strokeWidth = 3.dp
                     )
                 }
             }
@@ -122,8 +122,10 @@ fun Profile(item: String, backgroundColor: Color) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
-        elevation = 4.dp,
-        backgroundColor = backgroundColor,
+        elevation = CardDefaults.cardElevation(4.dp),
+        colors = CardDefaults.cardColors(
+            contentColor = backgroundColor
+        ),
     ) {
         Text(
             modifier = Modifier
@@ -157,7 +159,7 @@ fun InsertNameTextField(
         )
         Button(enabled = textFieldValue.isNotBlank(), onClick = { buttonAction.invoke() }) {
             Text(
-                text = "Add name", style = MaterialTheme.typography.body1
+                text = "Add name", style = MaterialTheme.typography.bodyLarge
             )
         }
     }

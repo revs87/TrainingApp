@@ -25,8 +25,7 @@ class MainAppActivity : ComponentActivity(), Observer<List<MeawData>> {
         super.onCreate(savedInstanceState)
 
 
-        val owner = ViewModelStoreOwner { ViewModelStore() }
-        val viewModel: IMainViewModel = ViewModelProvider(owner)[MainViewModel::class.java]
+        val viewModel: IMainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.getLiveData().observe(this, this)
 
 

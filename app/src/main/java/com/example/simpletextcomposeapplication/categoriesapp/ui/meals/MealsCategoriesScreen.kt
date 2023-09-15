@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.wear.compose.material3.ContentAlpha
 import coil.compose.rememberAsyncImagePainter
 import com.example.simpletextcomposeapplication.categoriesapp.repository.domain.CategoryDomain
 
@@ -54,7 +55,7 @@ fun MealCategory(
 
     Card(
         shape = RoundedCornerShape(8.dp),
-        elevation = 2.dp,
+        elevation = CardDefaults.cardElevation(2.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(
@@ -63,7 +64,9 @@ fun MealCategory(
                 top = if (first) 8.dp else 4.dp,
                 bottom = if (last) 8.dp else 4.dp
             ),
-        backgroundColor = MaterialTheme.colors.background
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background
+        )
     ) {
         Row(
             modifier = Modifier
@@ -84,10 +87,10 @@ fun MealCategory(
             Column(
                 modifier = Modifier.weight(2f)
             ) {
-                Text(text = category.name, style = MaterialTheme.typography.h5, modifier = Modifier.padding(bottom = 8.dp))
+                Text(text = category.name, style = MaterialTheme.typography.headlineSmall, modifier = Modifier.padding(bottom = 8.dp))
                 Text(
                     text = category.description,
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.alpha(ContentAlpha.medium),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = if (expanded) 10 else 4

@@ -11,10 +11,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -35,15 +35,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.wear.compose.material3.ContentAlpha
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.example.simpletextcomposeapplication.R
 import com.example.simpletextcomposeapplication.categoriesapp.CategoriesAppActivity
+import com.example.simpletextcomposeapplication.theme.LightGray700
+import com.example.simpletextcomposeapplication.theme.LightGreen200
 import com.example.simpletextcomposeapplication.theme.MyTheme
 import com.example.simpletextcomposeapplication.theme.ShapesTopEndCut
-import com.example.simpletextcomposeapplication.theme.lightGray700
-import com.example.simpletextcomposeapplication.theme.lightGreen200
 
 class SimpleAppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,6 +140,7 @@ class SimpleAppActivity : ComponentActivity() {
 
 /* ----------------------------------- */
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun AppBar(title: String, icon: ImageVector, iconClickAction: () -> Unit) {
         TopAppBar(
@@ -166,8 +168,10 @@ class SimpleAppActivity : ComponentActivity() {
                 .wrapContentHeight(align = Alignment.Top)
                 .padding(10.dp)
                 .clickable(onClick = { onClick.invoke() }),
-            elevation = 8.dp,
-            backgroundColor = Color.White,
+            elevation = CardDefaults.cardElevation(8.dp),
+            colors = CardDefaults.cardColors(
+                contentColor = Color.White
+            ),
             shape = ShapesTopEndCut.medium
         ) {
             Row(
@@ -187,12 +191,12 @@ class SimpleAppActivity : ComponentActivity() {
             shape = CircleShape,
             border = BorderStroke(
                 2.dp,
-                color = if (status) MaterialTheme.colors.lightGreen200 else MaterialTheme.colors.lightGray700
+                color = if (status) LightGreen200 else LightGray700
             ),
             modifier = Modifier
                 .padding(16.dp)
                 .size(imageSize),
-            elevation = 4.dp
+            elevation = CardDefaults.cardElevation(4.dp)
         ) {
 
 //        1:
@@ -235,7 +239,7 @@ class SimpleAppActivity : ComponentActivity() {
         )
         if (loading) {
             CircularProgressIndicator(
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colorScheme.primary,
                 strokeWidth = 3.dp
             )
         }
@@ -250,7 +254,7 @@ class SimpleAppActivity : ComponentActivity() {
         ) {
             Text(
                 text = name,
-                style = MaterialTheme.typography.h5,
+                style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.alpha(if (status) 1f else ContentAlpha.medium)
             )
             Text(
@@ -259,7 +263,7 @@ class SimpleAppActivity : ComponentActivity() {
                 } else {
                     "Inactive"
                 },
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.alpha(ContentAlpha.medium)
             )
         }
@@ -302,7 +306,7 @@ class SimpleAppActivity : ComponentActivity() {
         Button(onClick = { }) {
             Text(
                 text = if (textFieldValue.isBlank()) "Add text" else "Add $textFieldValue",
-                style = MaterialTheme.typography.h6
+                style = MaterialTheme.typography.headlineSmall
             )
         }
     }
@@ -332,13 +336,13 @@ class SimpleAppActivity : ComponentActivity() {
         }
         TextField(value = textFieldValue, onValueChange = textFieldUpdate)
         Button(onClick = buttonClick) {
-            Text(text = "Add new name", style = MaterialTheme.typography.h4)
+            Text(text = "Add new name", style = MaterialTheme.typography.headlineSmall)
         }
     }
 
     @Composable
     fun Greeting(name: String) {
-        Text(text = "Hello $name!", style = MaterialTheme.typography.h4)
+        Text(text = "Hello $name!", style = MaterialTheme.typography.headlineSmall)
     }
 
     @Composable

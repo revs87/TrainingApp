@@ -15,9 +15,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -77,8 +78,10 @@ class RecyclerviewAppActivity : ComponentActivity() {
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(8.dp),
-                                    elevation = 4.dp,
-                                    backgroundColor = if (disabled) Color.LightGray else Color.White,
+                                    elevation = CardDefaults.cardElevation(4.dp),
+                                    colors = CardDefaults.cardColors(
+                                        contentColor = if (disabled) Color.LightGray else Color.White
+                                    ),
                                 ) {
                                     Text(
                                         modifier = Modifier

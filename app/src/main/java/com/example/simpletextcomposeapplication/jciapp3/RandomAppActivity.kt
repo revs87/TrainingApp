@@ -21,8 +21,7 @@ class Data2AppActivity : ComponentActivity(), Observer<List<Data2>> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val owner = ViewModelStoreOwner { ViewModelStore() }
-        val viewModel: Data2ViewModel = ViewModelProvider(owner)[Data2ViewModelImpl::class.java]
+        val viewModel: Data2ViewModel = ViewModelProvider(this)[Data2ViewModelImpl::class.java]
         viewModel.getLiveData().observe(this, this)
         viewModel.getData()
     }

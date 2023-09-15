@@ -9,8 +9,6 @@ import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simpletextcomposeapplication.R
@@ -26,10 +24,9 @@ class AdentisAppActivity : ComponentActivity(), Observer<List<GenderProfile>> {
         binding = ActivityLayoutGenericBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val owner = ViewModelStoreOwner { ViewModelStore() }
-        val viewModel: IAdentisViewModel = ViewModelProvider(owner).get(AdentisViewModel::class.java)
+        val viewModel: IAdentisViewModel = ViewModelProvider(this)[AdentisViewModel::class.java]
         val observer = this as Observer<List<GenderProfile>>
-        viewModel.getLiveData().observe({ lifecycle }, observer)
+        viewModel.getLiveData().observe(this, observer)
         viewModel.getSortedNamesData()
     }
 
