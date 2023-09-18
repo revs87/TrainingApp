@@ -5,7 +5,6 @@ import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
 import assertk.assertions.isTrue
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -48,9 +47,9 @@ class Coroutines {
     @Test
     fun `Concurrent coroutines return the sum of each execution time - launch with join() - when result doesn't matter`() {
         runBlocking {
-            val c1 = launch { delay(1000) }
-            val c2 = launch { delay(500) }
             val time = measureTimeMillis {
+                val c1 = launch { delay(1000) }
+                val c2 = launch { delay(500) }
                 c1.join() // Wait for the coroutine to complete.
                 c2.join() // When both are completed, continue.
             }
@@ -61,16 +60,16 @@ class Coroutines {
     @Test
     fun `Asynchronous coroutines return an execution time lesser than the sum of each execution time - async - result matters!`() {
         runBlocking {
-            val c1 = async { delay(1000); true }
-            val c2 = async { delay(500); true }
             val time = measureTimeMillis {
+                val c1 = async { delay(1000); true }
+                val c2 = async { delay(500); true }
                 val res1 = c1.await()
                 val res2 = c2.await()
                 assertThat(res1 && res2).isTrue()
             }
             assertThat(time).isLessThan(1500)
 
-            listOf(c1, c2).awaitAll().map { assertThat(it).isTrue() }
+            //listOf(c1, c2).awaitAll().map { assertThat(it).isTrue() }
         }
     }
 }
