@@ -12,6 +12,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlin.system.measureTimeMillis
 
 class Coroutines {
 
@@ -25,22 +26,22 @@ class Coroutines {
     @Test
     fun `Execution block returns the sum of each delay's execution time`() {
         runBlocking {
-            val start = System.currentTimeMillis()
-            delay(1000)
-            delay(500)
-            val end = System.currentTimeMillis()
-            assertThat(end - start).isGreaterThan(1500)
+            val time = measureTimeMillis {
+                delay(1000)
+                delay(500)
+            }
+            assertThat(time).isGreaterThan(1500)
         }
     }
 
     @Test
     fun `Concurrent coroutines return the sum of each execution time - launch without join()`() {
         runBlocking {
-            val start = System.currentTimeMillis()
-            launch { delay(1000) } // A new instance of Job is always assigned to a new coroutine
-            launch { delay(500) }
-            val end = System.currentTimeMillis()
-            assertThat(end - start).isLessThan(40)
+            val time = measureTimeMillis {
+                launch { delay(1000) } // A new instance of Job is always assigned to a new coroutine
+                launch { delay(500) }
+            }
+            assertThat(time).isLessThan(40)
         }
     }
 
@@ -49,11 +50,11 @@ class Coroutines {
         runBlocking {
             val c1 = launch { delay(1000) }
             val c2 = launch { delay(500) }
-            val start = System.currentTimeMillis()
-            c1.join() // Wait for the coroutine to complete
-            c2.join()
-            val end = System.currentTimeMillis()
-            assertThat(end - start).isLessThan(1500)
+            val time = measureTimeMillis {
+                c1.join() // Wait for the coroutine to complete
+                c2.join()
+            }
+            assertThat(time).isLessThan(1500)
         }
     }
 
@@ -62,12 +63,12 @@ class Coroutines {
         runBlocking {
             val c1 = async { delay(1000); true }
             val c2 = async { delay(500); true }
-            val start = System.currentTimeMillis()
-            val res1 = c1.await()
-            val res2 = c2.await()
-            val end = System.currentTimeMillis()
-            assertThat(res1 && res2).isTrue()
-            assertThat(end - start).isLessThan(1500)
+            val time = measureTimeMillis {
+                val res1 = c1.await()
+                val res2 = c2.await()
+                assertThat(res1 && res2).isTrue()
+            }
+            assertThat(time).isLessThan(1500)
 
             listOf(c1, c2).awaitAll().map { assertThat(it).isTrue() }
         }
