@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication
+package com.example.simpletextcomposeapplication.component
 
 import assertk.assertThat
 import assertk.assertions.isGreaterThan
