@@ -51,8 +51,8 @@ class Coroutines {
             val c1 = launch { delay(1000) }
             val c2 = launch { delay(500) }
             val time = measureTimeMillis {
-                c1.join() // Wait for the coroutine to complete
-                c2.join()
+                c1.join() // Wait for the coroutine to complete.
+                c2.join() // When both are completed, continue.
             }
             assertThat(time).isLessThan(1500)
         }
