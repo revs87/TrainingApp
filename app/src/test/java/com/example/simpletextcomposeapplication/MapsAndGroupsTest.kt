@@ -33,71 +33,21 @@ class MapsAndGroupsTest {
      * */
 
     private val baseNames = listOf(
-        "Marco;M",
-        "Maria;F",
-        "Joao;M",
-        "Luis;M",
-        "Ana;F",
-        "Isabel;M",
-        "Ana;F",
-        "Rita;I",
-        "Luis;M",
-        "Catarina;F",
-        "Paulo;M",
-        "Marina;F",
-        "Luisa;F",
-        "Marcia;F",
-        "Pedro;M",
-        "Joel;I",
-        "Antonio;M",
-        "Marisa;F",
-        "Sofia;F",
-        "Jose;M",
-        "Patricia;F",
-        "Paulo;M",
-        "Marisa;F"
+        "Marco;M", "Maria;F", "Joao;M", "Luis;M", "Ana;F", "Isabel;M", "Ana;F", "Rita;I", "Luis;M",
+        "Catarina;F", "Paulo;M", "Marina;F", "Luisa;F", "Marcia;F", "Pedro;M", "Joel;I", "Antonio;M",
+        "Marisa;F", "Sofia;F", "Jose;M", "Patricia;F", "Paulo;M", "Marisa;F"
     )
     private val expectedDescending = listOf(
-        "Ana;F;2",
-        "Luis;M;2",
-        "Marisa;F;2",
-        "Paulo;M;2",
-        "Antonio;M;1",
-        "Catarina;F;1",
-        "Isabel;M;1",
-        "Joao;M;1",
-        "Joel;I;1",
-        "Jose;M;1",
-        "Luisa;F;1",
-        "Marcia;F;1",
-        "Marco;M;1",
-        "Maria;F;1",
-        "Marina;F;1",
-        "Patricia;F;1",
-        "Pedro;M;1",
-        "Rita;I;1",
+        "Ana;F;2", "Luis;M;2", "Marisa;F;2", "Paulo;M;2",
+        "Antonio;M;1", "Catarina;F;1", "Isabel;M;1", "Joao;M;1", "Joel;I;1", "Jose;M;1", "Luisa;F;1",
+        "Marcia;F;1", "Marco;M;1", "Maria;F;1", "Marina;F;1", "Patricia;F;1", "Pedro;M;1", "Rita;I;1",
         "Sofia;F;1",
     )
     private val expectedAscending = listOf(
-        "Antonio;M;1",
-        "Catarina;F;1",
-        "Isabel;M;1",
-        "Joao;M;1",
-        "Joel;I;1",
-        "Jose;M;1",
-        "Luisa;F;1",
-        "Marcia;F;1",
-        "Marco;M;1",
-        "Maria;F;1",
-        "Marina;F;1",
-        "Patricia;F;1",
-        "Pedro;M;1",
-        "Rita;I;1",
+        "Antonio;M;1", "Catarina;F;1", "Isabel;M;1", "Joao;M;1", "Joel;I;1", "Jose;M;1", "Luisa;F;1",
+        "Marcia;F;1", "Marco;M;1", "Maria;F;1", "Marina;F;1", "Patricia;F;1", "Pedro;M;1", "Rita;I;1",
         "Sofia;F;1",
-        "Ana;F;2",
-        "Luis;M;2",
-        "Marisa;F;2",
-        "Paulo;M;2",
+        "Ana;F;2", "Luis;M;2", "Marisa;F;2", "Paulo;M;2",
     )
 
     @ParameterizedTest
@@ -130,5 +80,5 @@ class MapsAndGroupsTest {
         else { assertThat(actual).isEqualTo(expectedAscending) }
     }
 
-    private data class Profile(val name: String, val gender: String, var times: Int = 0)
+    private data class Profile(val name: String, val gender: String, val times: Int)
 }
