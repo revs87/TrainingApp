@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.system.measureTimeMillis
 
-class Coroutines {
+class CoroutinesTest {
 
     @BeforeEach
     fun setUp() {}
