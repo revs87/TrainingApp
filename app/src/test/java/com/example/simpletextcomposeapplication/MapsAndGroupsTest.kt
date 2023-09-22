@@ -2,8 +2,10 @@ package com.example.simpletextcomposeapplication
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import kotlin.system.measureTimeMillis
 
 class MapsAndGroupsTest {
 
@@ -106,6 +108,43 @@ class MapsAndGroupsTest {
         if (isDescending) { assertThat(actual).isEqualTo(expectedDescending) }
         else { assertThat(actual).isEqualTo(expectedAscending) }
     }
+
+    @Test
+    fun `Using groupingBy-eachCount and sortedWith Timed`() {
+        var actual: List<String>? = null
+
+        val time = measureTimeMillis {
+            actual = baseNames
+                .groupingBy { it }
+                .eachCount()
+                .toList()
+                .sortedWith(compareByDescending<Pair<String, Int>> { it.second }.thenBy { it.first })
+                .map { "${it.first.split(";")[0]};${it.first.split(";")[1]};${it.second}" }
+        }
+
+        assertThat(actual).isEqualTo(expectedDescending)
+
+        println("Timed: ${time}ms")
+    }
+    
+    @Test
+    fun `Using groupingBy-eachCount and toSortedMap Timed`() {
+        var actual: List<String>? = null
+
+        val time = measureTimeMillis {
+            val map = baseNames
+                .groupingBy { it }
+                .eachCount()
+            actual = map
+                .toSortedMap(compareByDescending<String> { map[it] }.thenBy { it })
+                .map { "${it.key.split(";")[0]};${it.key.split(";")[1]};${it.value}" }
+        }
+
+        assertThat(actual).isEqualTo(expectedDescending)
+
+        println("Timed: ${time}ms")
+    }
+
 
     private data class Profile(val name: String, val gender: String, val times: Int)
 }
