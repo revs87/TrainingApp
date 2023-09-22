@@ -80,5 +80,32 @@ class MapsAndGroupsTest {
         else { assertThat(actual).isEqualTo(expectedAscending) }
     }
 
+    @ParameterizedTest
+    @ValueSource(booleans = [true, false])
+    fun `Using groupingBy-eachCount and toSortedMap`(isDescending: Boolean) {
+
+        val map = baseNames
+            .groupingBy { it }
+            .eachCount()
+        val actual = map
+            .toSortedMap(
+                if (isDescending) { compareByDescending<String> { map[it] }.thenBy { it } }
+                else { compareBy<String> { map[it] }.thenBy { it } }
+            )
+            .map {
+                Profile(
+                    it.key.split(";")[0],
+                    it.key.split(";")[1],
+                    it.value
+                )
+            }
+            .map {
+                "${it.name};${it.gender};${it.times}"
+            }
+
+        if (isDescending) { assertThat(actual).isEqualTo(expectedDescending) }
+        else { assertThat(actual).isEqualTo(expectedAscending) }
+    }
+
     private data class Profile(val name: String, val gender: String, val times: Int)
 }
