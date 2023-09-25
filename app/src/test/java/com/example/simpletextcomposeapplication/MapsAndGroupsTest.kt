@@ -145,6 +145,27 @@ class MapsAndGroupsTest {
         println("Timed: ${time}ms")
     }
 
+    private val expectedNamesWithLengthDescending = listOf(
+        "Catarina;F;8", "Patricia;F;8",
+        "Antonio;M;7",
+        "Isabel;M;6", "Marcia;F;6", "Marina;F;6", "Marisa;F;6",
+        "Luisa;F;5", "Marco;M;5", "Maria;F;5", "Paulo;M;5", "Pedro;M;5", "Sofia;F;5",
+        "Joao;M;4", "Joel;I;4", "Jose;M;4", "Luis;M;4", "Rita;I;4",
+        "Ana;F;3"
+    )
+
+    @Test
+    fun `Using associateWith to sort by name length descending`() {
+        val namesWithLength = baseNames
+            .associateWith { it.split(";")[0].length }
+        val actual = namesWithLength
+            .toSortedMap(compareByDescending<String> { namesWithLength[it] }.thenBy { it })
+            .map {
+                "${it.key};${it.value}"
+            }
+
+        assertThat(actual).isEqualTo(expectedNamesWithLengthDescending)
+    }
 
     private data class Profile(val name: String, val gender: String, val times: Int)
 }
