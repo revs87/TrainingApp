@@ -348,7 +348,57 @@ class LinkedLists {
         assertThat(actual).isEqualTo(expected)
     }
 
+    /**
+     * ## Descrição
+     *
+     * Criar uma aplicação que permita ao utilizador introduzir uma frase e que ao clicar num botão
+     * mostre numa lista o total de ocorrências para cada palavra. A lista deve ser ordenada pelo
+     * total de ocorrências.
+     *
+     * ## Dados de Entrada
+     *
+     * "Esta é uma frase exemplo exemplo"
+     * */
+    @Test
+    fun `Test Counting and Sorting words`() {
+        val phrase = "Esta é uma frase exemplo exemplo"
 
+        val expectedList = listOf<Pair<String, Int>>(
+            Pair("Esta", 1),
+            Pair("é", 1),
+            Pair("uma", 1),
+            Pair("frase", 1),
+            Pair("exemplo", 2),
+        )
+        phrase
+            .split(" ")
+            .groupingBy { it }
+            .eachCount()
+            .toList()
+            .sortedBy { it.second }
+            .also { actual ->
+                
+                assertThat(actual).isEqualTo(expectedList)
+            }
+
+        val expectedMap = mapOf(
+            "Esta" to 1,
+            "frase" to 1,
+            "uma" to 1,
+            "é" to 1,
+            "exemplo" to 2,
+        )
+        phrase
+            .split(" ")
+            .groupingBy { it }
+            .eachCount()
+            .also { map ->
+                val actual =
+                    map.toSortedMap(compareBy<String> { map[it] }.thenBy { it })
+
+                assertThat(actual).isEqualTo(expectedMap)
+            }
+    }
 
 }
 private fun Int.asInterval(): String {
