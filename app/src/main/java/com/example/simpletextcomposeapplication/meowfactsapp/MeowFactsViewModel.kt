@@ -18,12 +18,12 @@ class MeowFactsViewModel: ViewModel() {
         viewModelScope.launch(DefaultDispatchers.IO) {
             val list = repo.getAllMeowFacts()
             withContext(DefaultDispatchers.MAIN) {
-                state.addAll(list)
+                state.addAll(list.reversed())
             }
         }
     }
 
-    fun addMeowFact(count: Int = 3) {
+    fun addMeowFact(count: Int = 1) {
         viewModelScope.launch(DefaultDispatchers.IO) {
             val list = repo.getMoreMeowFacts(count)
             withContext(DefaultDispatchers.MAIN) {
