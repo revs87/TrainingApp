@@ -9,7 +9,7 @@ import androidx.room.Query
 interface MeowFactsDao {
 
     @Query("SELECT * FROM meowFact")
-    fun getMeowFacts(): List<MeowFact>
+    fun getAllMeowFacts(): List<MeowFact>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMeowFact(meowFact: MeowFact)

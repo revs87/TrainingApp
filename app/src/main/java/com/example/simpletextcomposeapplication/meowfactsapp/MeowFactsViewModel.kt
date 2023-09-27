@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.simpletextcomposeapplication.DefaultDispatchers
 import com.example.simpletextcomposeapplication.meowfactsapp.data.repository.MeowFactsRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -15,18 +15,18 @@ class MeowFactsViewModel: ViewModel() {
 
     fun init(current: Context) {
         this.repo = MeowFactsRepository(context = current)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(DefaultDispatchers.IO) {
             val list = repo.getAllMeowFacts()
-            withContext(Dispatchers.Main) {
+            withContext(DefaultDispatchers.MAIN) {
                 state.addAll(list)
             }
         }
     }
 
     fun addMeowFact(count: Int = 3) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(DefaultDispatchers.IO) {
             val list = repo.getMoreMeowFacts(count)
-            withContext(Dispatchers.Main) {
+            withContext(DefaultDispatchers.MAIN) {
                 state.addAll(0, list.reversed())
             }
         }

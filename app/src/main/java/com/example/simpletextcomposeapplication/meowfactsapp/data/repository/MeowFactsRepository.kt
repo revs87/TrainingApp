@@ -12,7 +12,7 @@ class MeowFactsRepository(
     private val service: MeowFactsService = MeowFactsService(),
     private val dao: MeowFactsDao = createDb(context).meowFactsDao
 ) {
-    suspend fun getAllMeowFacts() = dao.getMeowFacts().map { it.message }
+    suspend fun getAllMeowFacts() = dao.getAllMeowFacts().map { it.message }
 
     suspend fun getMoreMeowFacts(count: Int): List<String> {
         val response = service.getMeowFacts(count)
