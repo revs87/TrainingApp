@@ -66,6 +66,10 @@
             android:name=".jciapp4.MainAppActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".meowfactsapp.MeowFactsActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
