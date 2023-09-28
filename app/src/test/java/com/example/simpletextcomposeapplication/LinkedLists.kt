@@ -122,6 +122,44 @@ class LinkedLists {
         Assert.assertTrue(intArrayOf(4, 5, 6).contentEquals(middleNodeList(nodes)))
     }
 
+    @Test
+    fun `Testing list nodes sorting`() {
+        val nodes = ListNode(4).apply { next = ListNode(2).apply { next = ListNode(1).apply { next = ListNode(3).apply { next = null } } } }
+
+        val expected = ListNode(1).apply { next = ListNode(2).apply { next = ListNode(3).apply { next = ListNode(4).apply { next = null } } } }
+
+        val actual = nodes
+            .convertToList()
+            .sortedBy { it }
+            .convertToListNode()
+
+        assertThat(actual.convertToList()).isEqualTo(expected.convertToList())
+    }
+
+    private fun ListNode?.convertToList(): List<Int> {
+        val list = mutableListOf<Int>()
+        var curr = this
+        while (curr != null) {
+            list.add(curr.`val`)
+            curr = curr.next
+        }
+        return list
+    }
+
+    private fun List<Int>.convertToListNode(): ListNode? {
+        var head: ListNode? = null
+        var node: ListNode? = null
+        var previousNode: ListNode? = null
+        var index = 0
+        while (index < this.size) {
+            node = ListNode(this[index])
+            if (index == 0) { head = node }
+            else { previousNode?.apply { next = node } }
+            index++
+            previousNode = node
+        }
+        return head
+    }
 
     /**
      * For this challenge you will be manipulating an array.
