@@ -19,7 +19,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.simpletextcomposeapplication.theme.MyTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MeowFactsActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
