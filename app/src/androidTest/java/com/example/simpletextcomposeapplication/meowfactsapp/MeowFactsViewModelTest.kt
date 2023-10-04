@@ -10,9 +10,9 @@ import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import javax.inject.Inject
 
 
@@ -32,7 +32,7 @@ class MeowFactsViewModelTest {
     private lateinit var viewModel: MeowFactsViewModel
 
 
-    @BeforeEach
+    @Before
     fun setUp() {
         hiltRule.inject()
 
