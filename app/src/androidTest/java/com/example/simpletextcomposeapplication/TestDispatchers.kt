@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication.component
+package com.example.simpletextcomposeapplication
 
 import com.example.simpletextcomposeapplication.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher

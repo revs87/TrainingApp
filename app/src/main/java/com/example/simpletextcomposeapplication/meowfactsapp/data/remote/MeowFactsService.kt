@@ -4,13 +4,17 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MeowFactsService(
-    private val api: MeowFactsApi = createApi()
-) {
-    suspend fun getMeowFacts(count: Int): MeowFactsResponse = api.getMeowFacts(count)
+interface MeowFactsService {
+    suspend fun getMeowFacts(count: Int): MeowFactsResponse
 }
 
-fun createApi(): MeowFactsApi {
+class MeowFactsServiceImpl(
+    private val api: MeowFactsApi
+) : MeowFactsService {
+    override suspend fun getMeowFacts(count: Int): MeowFactsResponse = api.getMeowFacts(count)
+}
+
+private fun createApi(): MeowFactsApi {
     val okHttpClient = OkHttpClient.Builder().build()
 
     val retrofit = Retrofit.Builder()
