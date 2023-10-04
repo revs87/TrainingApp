@@ -1,6 +1,5 @@
 package com.example.simpletextcomposeapplication.meowfactsapp
 
-import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,16 +14,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MeowFactsViewModel @Inject constructor(
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val repo: MeowFactsRepository
 ) : ViewModel() {
     val state = mutableStateListOf<String>()
-    private lateinit var repo: MeowFactsRepository
 
-    fun init(current: Context) {
-        this.repo = MeowFactsRepository(context = current)
+    fun init() {
         viewModelScope.launch(dispatcherProvider.io) {
             val list = repo.getAllMeowFacts()
             withContext(DefaultDispatchers.MAIN) {
+                state.clear()
                 state.addAll(list.reversed())
             }
         }
@@ -34,7 +33,7 @@ class MeowFactsViewModel @Inject constructor(
         viewModelScope.launch(dispatcherProvider.io) {
             val list = repo.getMoreMeowFacts(count)
             withContext(DefaultDispatchers.MAIN) {
-                state.addAll(0, list.reversed())
+                state.addAll(0, list.takeLast(count).reversed())
             }
         }
     }
