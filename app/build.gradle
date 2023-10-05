@@ -73,7 +73,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_fallback_libs"
     implementation "com.airbnb.android:lottie-compose:6.0.0"
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
-    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     // Compose + Lifecycle
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
@@ -106,6 +106,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0'
 
     // Unit testing
     testImplementation "androidx.test:core:1.5.0"
