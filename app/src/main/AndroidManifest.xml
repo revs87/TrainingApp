@@ -81,6 +81,10 @@
                 android:value="" />
         </activity>
 
+        <activity
+            android:name=".accentureapp.AccentureActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
