@@ -45,6 +45,17 @@ class CoroutinesTest {
     }
 
     @Test
+    fun `Concurrent coroutines return the sum of each execution time - launch without join() but with references`() {
+        runBlocking {
+            val time = measureTimeMillis {
+                val c1 = launch { delay(1000) }
+                val c2 = launch { delay(500) }
+            }
+            assertThat(time).isLessThan(40)
+        }
+    }
+
+    @Test
     fun `Concurrent coroutines return the sum of each execution time - launch with join() - when result doesn't matter`() {
         runBlocking {
             val time = measureTimeMillis {
@@ -53,7 +64,7 @@ class CoroutinesTest {
                 c1.join() // Wait for the coroutine to complete.
                 c2.join() // When both are completed, continue.
             }
-            assertThat(time).isLessThan(1500)
+            assertThat(time).isLessThan(1100)
         }
     }
 
@@ -67,7 +78,7 @@ class CoroutinesTest {
                 val res2 = c2.await()
                 assertThat(res1 && res2).isTrue()
             }
-            assertThat(time).isLessThan(1500)
+            assertThat(time).isLessThan(1100)
 
             //listOf(c1, c2).awaitAll().map { assertThat(it).isTrue() }
         }
