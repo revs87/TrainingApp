@@ -47,7 +47,7 @@ class MeowFactsViewModelTest {
     @Test
     fun addMeowFact() = runBlocking {
         val job = launch {
-            viewModel.testStateFlow
+            viewModel.listStateFlow
                 .test {
                     val item = awaitItem()
                     assert(item.isNotEmpty())

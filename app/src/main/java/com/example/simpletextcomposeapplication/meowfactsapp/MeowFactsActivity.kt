@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.simpletextcomposeapplication.theme.MyTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +32,8 @@ class MeowFactsActivity : ComponentActivity() {
 
             val viewModel: MeowFactsViewModel = viewModel()
             viewModel.init()
-            val list = remember { viewModel.state }
+//            val list = remember { viewModel.stateList }
+            val list = viewModel.listStateFlow.collectAsStateWithLifecycle().value
 
             MyTheme {
                 Scaffold(
@@ -58,7 +60,7 @@ class MeowFactsActivity : ComponentActivity() {
 @Composable
 fun MeowFactsLazyColumn(
     onButtonClick: () -> Unit = {},
-    list: MutableList<String> = mutableListOf("test1","test2","test3")
+    list: List<String> = mutableListOf("test1","test2","test3")
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()

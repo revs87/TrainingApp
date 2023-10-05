@@ -20,18 +20,18 @@ class MeowFactsViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val repo: MeowFactsRepository
 ) : ViewModel() {
-    val state = mutableStateListOf<String>()
+    val stateList = mutableStateListOf<String>()
 
-    private val _test = MutableStateFlow<List<String>>(emptyList())
-    val testStateFlow = _test.asStateFlow()
+    private val _listStateFlow = MutableStateFlow<List<String>>(emptyList())
+    val listStateFlow = _listStateFlow.asStateFlow()
 
     fun init() {
         viewModelScope.launch(dispatcherProvider.io) {
             val list = repo.getAllMeowFacts()
             withContext(DefaultDispatchers.MAIN) {
-                state.clear()
-                state.addAll(list.reversed())
-                _test.update {
+                stateList.clear()
+                stateList.addAll(list.reversed())
+                _listStateFlow.update {
                     list.reversed()
                 }
             }
@@ -42,9 +42,9 @@ class MeowFactsViewModel @Inject constructor(
         viewModelScope.launch(dispatcherProvider.io) {
             val list = repo.getMoreMeowFacts(count)
             withContext(DefaultDispatchers.MAIN) {
-                state.addAll(0, list.takeLast(count).reversed())
+                stateList.addAll(0, list.takeLast(count).reversed())
 
-                _test.update {
+                _listStateFlow.update {
                     list.takeLast(count).reversed()
                 }
             }
