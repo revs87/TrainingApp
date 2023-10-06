@@ -13,7 +13,6 @@ import com.example.simpletextcomposeapplication.meowfactsapp.data.remote.MeowFac
 import com.example.simpletextcomposeapplication.meowfactsapp.data.repository.MeowFactsRepository
 import com.example.simpletextcomposeapplication.meowfactsapp.data.repository.MeowFactsRepositoryImpl
 import com.example.simpletextcomposeapplication.meowfactsapp.data.repository.db.MeowFactsDatabase
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -27,7 +26,6 @@ import okhttp3.Response
 import okio.Buffer
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import javax.inject.Singleton
