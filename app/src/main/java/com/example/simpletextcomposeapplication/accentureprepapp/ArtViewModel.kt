@@ -1,9 +1,9 @@
-package com.example.simpletextcomposeapplication.accentureapp
+package com.example.simpletextcomposeapplication.accentureprepapp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.simpletextcomposeapplication.accentureapp.data.remote.ArtService
-import com.example.simpletextcomposeapplication.accentureapp.domain.ArtItem
+import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtService
+import com.example.simpletextcomposeapplication.accentureprepapp.domain.ArtItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

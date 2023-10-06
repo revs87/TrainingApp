@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication.accentureapp
+package com.example.simpletextcomposeapplication.accentureprepapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.simpletextcomposeapplication.accentureapp.domain.ArtItem
+import com.example.simpletextcomposeapplication.accentureprepapp.domain.ArtItem
 import com.example.simpletextcomposeapplication.theme.MyTheme
 import dagger.hilt.android.AndroidEntryPoint
 

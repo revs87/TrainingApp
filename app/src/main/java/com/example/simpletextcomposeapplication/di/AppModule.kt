@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.example.simpletextcomposeapplication.DefaultDispatchers
 import com.example.simpletextcomposeapplication.DispatcherProvider
-import com.example.simpletextcomposeapplication.accentureapp.data.remote.ArtApi
-import com.example.simpletextcomposeapplication.accentureapp.data.remote.ArtService
-import com.example.simpletextcomposeapplication.accentureapp.data.remote.ArtServiceImpl
+import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtApi
+import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtService
+import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtServiceImpl
 import com.example.simpletextcomposeapplication.meowfactsapp.data.remote.MeowFactsApi
 import com.example.simpletextcomposeapplication.meowfactsapp.data.remote.MeowFactsService
 import com.example.simpletextcomposeapplication.meowfactsapp.data.remote.MeowFactsServiceImpl

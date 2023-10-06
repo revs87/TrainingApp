@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication.accentureapp.data.remote
+package com.example.simpletextcomposeapplication.accentureprepapp.data.remote
 
 import javax.inject.Inject
 

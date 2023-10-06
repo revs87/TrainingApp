@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication.accentureapp.data.remote
+package com.example.simpletextcomposeapplication.accentureprepapp.data.remote
 
 import retrofit2.http.GET
 import retrofit2.http.Query

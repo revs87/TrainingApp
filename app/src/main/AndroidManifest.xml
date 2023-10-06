@@ -82,7 +82,7 @@
         </activity>
 
         <activity
-            android:name=".accentureapp.ArtActivity"
+            android:name=".accentureprepapp.ArtActivity"
             android:exported="true" />
 
     </application>
