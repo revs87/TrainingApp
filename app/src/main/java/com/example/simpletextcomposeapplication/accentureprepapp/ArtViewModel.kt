@@ -6,6 +6,7 @@ import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.Art
 import com.example.simpletextcomposeapplication.accentureprepapp.domain.ArtItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -31,15 +32,30 @@ class ArtViewModel @Inject constructor(
             val response = service.getArtItems()
             withContext(Dispatchers.Main) {
                 _state.update {
-                    response?.data?.map {
+                    response.data.map {
                         ArtItem(
                             it.id,
                             it.title,
                         )
-                    } ?: emptyList()
+                    }
                 }
             }
         }
+    }
+
+    private var refreshJob: Job? = null
+    fun refreshArtItems() {
+        refreshJob?.cancel()
+        refreshJob = viewModelScope.launch(Dispatchers.Default) {
+            withContext(Dispatchers.Main) {
+                _state.update { emptyList() }
+            }
+            getArtItems()
+        }
+    }
+
+    fun getArtItemDetails(artId: Long) {
+        
     }
 
 }

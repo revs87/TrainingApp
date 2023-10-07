@@ -31,7 +31,7 @@ import java.nio.charset.StandardCharsets
 import javax.inject.Singleton
 
 
-const val LOGGER_ENTRY_MAX_LEN = 4 * 1000
+const val LOGGER_ENTRY_MAX_LEN = 4 * 1000 // Logcat entry is 4 * 1024 max.
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -131,7 +131,7 @@ object AppModule {
                     else endIndex - 1
                 val sub = json.substring(
                     IntRange(
-                        start = (it * LOGGER_ENTRY_MAX_LEN) - if (it != 0) 0 else 0,
+                        start = (it * LOGGER_ENTRY_MAX_LEN),
                         endInclusive = allowedEndIndex
                     )
                 )
