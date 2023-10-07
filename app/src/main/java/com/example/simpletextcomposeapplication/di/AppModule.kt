@@ -31,6 +31,8 @@ import java.nio.charset.StandardCharsets
 import javax.inject.Singleton
 
 
+const val LOGGER_ENTRY_MAX_LEN = 4 * 1000
+
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -116,10 +118,25 @@ object AppModule {
             println("INTERCEPTOR request: " + getRequestBody(request))
 
             val response = chain.proceed(request)
-
-            println("INTERCEPTOR response: " + getResponseBody(response))
-
+            print(response)
             return response
+        }
+
+        private fun print(response: Response) {
+            val json = getResponseBody(response).toString()
+            (0..(json.length / LOGGER_ENTRY_MAX_LEN)).forEach {
+                val endIndex = (it * LOGGER_ENTRY_MAX_LEN) + LOGGER_ENTRY_MAX_LEN
+                val allowedEndIndex =
+                    if (endIndex > json.length) json.length - 1
+                    else endIndex - 1
+                val sub = json.substring(
+                    IntRange(
+                        start = (it * LOGGER_ENTRY_MAX_LEN) - if (it != 0) 0 else 0,
+                        endInclusive = allowedEndIndex
+                    )
+                )
+                println(sub)
+            }
         }
     }
 
@@ -149,6 +166,5 @@ object AppModule {
     fun provideArtService(api: ArtApi): ArtService {
         return ArtServiceImpl(api)
     }
-
 
 }
