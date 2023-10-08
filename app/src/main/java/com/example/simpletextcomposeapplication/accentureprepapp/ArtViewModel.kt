@@ -3,6 +3,7 @@ package com.example.simpletextcomposeapplication.accentureprepapp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtService
+import com.example.simpletextcomposeapplication.accentureprepapp.domain.ArtDetailsItem
 import com.example.simpletextcomposeapplication.accentureprepapp.domain.ArtItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -54,8 +55,26 @@ class ArtViewModel @Inject constructor(
         }
     }
 
+
+    private val _stateArtDetails = MutableStateFlow<ArtDetailsItem>(ArtDetailsItem(0L, "", "", ""))
+    val stateArtDetails = _stateArtDetails.asStateFlow()
+
+    private var detailsJob: Job? = null
     fun getArtItemDetails(artId: Long) {
-        
+        detailsJob?.cancel()
+        detailsJob = viewModelScope.launch(Dispatchers.IO) {
+            val response = service.getArtItemDetails(artId)
+            withContext(Dispatchers.Main) {
+                _stateArtDetails.update {
+                    ArtDetailsItem(
+                        response.details.id,
+                        response.details.title ?: "",
+                        response.details.description ?: "",
+                        response.details.imageId ?: "",
+                    )
+                }
+            }
+        }
     }
 
 }
