@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.example.simpletextcomposeapplication.DefaultDispatchers
 import com.example.simpletextcomposeapplication.DispatcherProvider
+import com.example.simpletextcomposeapplication.accentureprep2app.data.remote.ArtService2
+import com.example.simpletextcomposeapplication.accentureprep2app.repository.ArtRepository
+import com.example.simpletextcomposeapplication.accentureprep2app.repository.ArtRepositoryImpl
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtApi
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtService
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtServiceImpl
@@ -87,8 +90,6 @@ object AppModule {
         )
     }
 
-
-
     @Provides
     @Singleton
     fun provideArtApi(): ArtApi {
@@ -161,10 +162,25 @@ object AppModule {
         return buffer.readString(charset)
     }
 
+
     @Provides
     @Singleton
     fun provideArtService(api: ArtApi): ArtService {
         return ArtServiceImpl(api)
+    }
+
+    /**/
+
+    @Provides
+    @Singleton
+    fun provideArtService2(): ArtService2 {
+        return ArtService2()
+    }
+
+    @Provides
+    @Singleton
+    fun provideArtRepository(service: ArtService2): ArtRepository {
+        return ArtRepositoryImpl(service)
     }
 
 }

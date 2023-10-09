@@ -85,6 +85,10 @@
             android:name=".accentureprepapp.ArtActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".accentureprep2app.ArtActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

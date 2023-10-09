@@ -1,4 +1,4 @@
-package com.example.simpletextcomposeapplication.accentureprepapp
+package com.example.simpletextcomposeapplication.accentureprep2app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -18,10 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
@@ -30,8 +27,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.compose.SubcomposeAsyncImage
-import com.example.simpletextcomposeapplication.accentureprepapp.domain.ArtDetailsItem
-import com.example.simpletextcomposeapplication.accentureprepapp.domain.ArtItem
+import com.example.simpletextcomposeapplication.accentureprep2app.domain.ArtDetails
+import com.example.simpletextcomposeapplication.accentureprep2app.domain.ArtItem
 import com.example.simpletextcomposeapplication.theme.MyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,11 +40,11 @@ class ArtActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val viewModel: ArtViewModel = hiltViewModel()
-            val list = viewModel.state.collectAsStateWithLifecycle()
-            val detailsItem = viewModel.stateArtDetails.collectAsStateWithLifecycle()
 
             val navController = rememberNavController()
+            val viewModel: ArtViewModel = hiltViewModel()
+            val listState = viewModel.stateList.collectAsStateWithLifecycle()
+            val detailsState = viewModel.stateDetails.collectAsStateWithLifecycle()
 
             MyTheme {
                 Scaffold(
@@ -67,9 +64,8 @@ class ArtActivity : ComponentActivity() {
                                 route = "list"
                             ) {
                                 ArtList(
-                                    list = list,
-                                    onItemClick = { id -> navController.navigate("details/$id") },
-                                    viewModel::refreshArtItems
+                                    state = listState,
+                                    onItemClick = { id -> navController.navigate("details/$id") }
                                 )
                             }
                             composable(
@@ -79,76 +75,59 @@ class ArtActivity : ComponentActivity() {
                                         type = NavType.LongType
                                     }
                                 )
-                            ) { navBackStack ->
-                                navBackStack.arguments?.getLong("id")?.let { id ->
+                            ) { navBackStackEntry ->
+                                navBackStackEntry.arguments?.getLong("id").let { id ->
                                     LaunchedEffect(id) {
-                                        viewModel.getArtItemDetails(id)
+                                        viewModel.setId(id)
                                     }
                                     ArtDetails(
-                                        detailsItem = detailsItem
-                                    ) { navController.popBackStack("list", false) }
+                                        state = detailsState
+                                    )
                                 }
                             }
                         }
+
                     }
                 }
             }
         }
     }
-}
 
 
-@Preview(showBackground = true)
-@Composable
-private fun ArtList(
-    list: State<List<ArtItem>> = derivedStateOf { (1L..4L).map { ArtItem(it, "Test") } },
-    onItemClick: (Long) -> Unit = { _ ->},
-    onBtnClick: () -> Unit = {}
-) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+    @Preview(showBackground = true)
+    @Composable
+    private fun ArtList(
+        state: State<List<ArtItem>> = derivedStateOf { (0..5).map { ArtItem(it.toLong(), "") } },
+        onItemClick: (Long) -> Unit = {}
     ) {
         LazyColumn(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxSize()
         ) {
-            items(list.value) {
+            items(state.value) {
                 Text(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .clickable { onItemClick.invoke(it.id) },
+                    modifier = Modifier.clickable { onItemClick.invoke(it.id) },
                     text = "${it.id}: ${it.title}"
                 )
             }
         }
-        Button(onClick = onBtnClick) {
-            Text(text = "Refresh")
-        }
     }
-}
 
-
-@Preview(showBackground = true)
-@Composable
-private fun ArtDetails(
-    detailsItem: State<ArtDetailsItem> = derivedStateOf { ArtDetailsItem(0L, "", "", "") },
-    onBackClick: () -> Unit = {}
-) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+    @Preview(showBackground = true)
+    @Composable
+    private fun ArtDetails(
+        state: State<ArtDetails> = derivedStateOf { ArtDetails(0L, "") },
     ) {
-        Button(onClick = onBackClick) {
-            Text(text = "Go back")
+        Column {
+            Text(text = state.value.title)
+            Text(text = state.value.description ?: "Empty description")
+
+            state.value.imageId?.let {
+                SubcomposeAsyncImage(
+                    modifier = Modifier.fillMaxWidth(),
+                    model = "https://www.artic.edu/iiif/2/$it/full/843,/0/default.jpg",
+                    contentDescription = it
+                ) {}
+            }
         }
-        Text(text = detailsItem.value.title)
-        Text(text = detailsItem.value.description)
-        SubcomposeAsyncImage(
-            modifier = Modifier.fillMaxWidth(),
-            model = "https://www.artic.edu/iiif/2/${detailsItem.value.imageId}/full/843,/0/default.jpg",
-            contentDescription = detailsItem.value.imageId
-        )
     }
 }
