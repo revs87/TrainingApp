@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -17,6 +16,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,8 +44,8 @@ class ArtActivity : ComponentActivity() {
 
         setContent {
             val viewModel: ArtViewModel = hiltViewModel()
-            val list = viewModel.state.collectAsStateWithLifecycle().value
-            val detailsItem = viewModel.stateArtDetails.collectAsStateWithLifecycle().value
+            val list = viewModel.state.collectAsStateWithLifecycle()
+            val detailsItem = viewModel.stateArtDetails.collectAsStateWithLifecycle()
 
             val navController = rememberNavController()
 
@@ -62,13 +63,12 @@ class ArtActivity : ComponentActivity() {
                             navController = navController,
                             startDestination = "list"
                         ) {
-
                             composable(
                                 route = "list"
                             ) {
                                 ArtList(
                                     list = list,
-                                    { id -> navController.navigate("details/$id") },
+                                    onItemClick = { id -> navController.navigate("details/$id") },
                                     viewModel::refreshArtItems
                                 )
                             }
@@ -101,7 +101,7 @@ class ArtActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun ArtList(
-    list: List<ArtItem> = (1L..4L).map { ArtItem(it, "Test") },
+    list: State<List<ArtItem>> = derivedStateOf { (1L..4L).map { ArtItem(it, "Test") } },
     onItemClick: (Long) -> Unit = { _ ->},
     onBtnClick: () -> Unit = {}
 ) {
@@ -114,7 +114,7 @@ fun ArtList(
                 .weight(1f)
                 .fillMaxWidth()
         ) {
-            items(list) {
+            items(list.value) {
                 Text(
                     modifier = Modifier
                         .padding(8.dp)
@@ -133,7 +133,7 @@ fun ArtList(
 @Preview(showBackground = true)
 @Composable
 fun ArtDetails(
-    detailsItem: ArtDetailsItem = ArtDetailsItem(0L, "", "", ""),
+    detailsItem: State<ArtDetailsItem> = derivedStateOf { ArtDetailsItem(0L, "", "", "") },
     onBackClick: () -> Unit = {}
 ) {
     Column(
@@ -143,12 +143,12 @@ fun ArtDetails(
         Button(onClick = onBackClick) {
             Text(text = "Go back")
         }
-        Text(text = detailsItem.title)
-        Text(text = detailsItem.description)
+        Text(text = detailsItem.value.title)
+        Text(text = detailsItem.value.description)
         SubcomposeAsyncImage(
             modifier = Modifier.fillMaxWidth(),
-            model = "https://www.artic.edu/iiif/2/${detailsItem.imageId}/full/843,/0/default.jpg",
-            contentDescription = detailsItem.imageId
+            model = "https://www.artic.edu/iiif/2/${detailsItem.value.imageId}/full/843,/0/default.jpg",
+            contentDescription = detailsItem.value.imageId
         )
     }
 }
