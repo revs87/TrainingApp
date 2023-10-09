@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.example.simpletextcomposeapplication.DefaultDispatchers
 import com.example.simpletextcomposeapplication.DispatcherProvider
+import com.example.simpletextcomposeapplication.accentureprep2app.data.db.ArtDao2
+import com.example.simpletextcomposeapplication.accentureprep2app.data.db.ArtDatabase
 import com.example.simpletextcomposeapplication.accentureprep2app.data.remote.ArtService2
 import com.example.simpletextcomposeapplication.accentureprep2app.repository.ArtRepository
 import com.example.simpletextcomposeapplication.accentureprep2app.repository.ArtRepositoryImpl
@@ -177,10 +179,18 @@ object AppModule {
         return ArtService2()
     }
 
+    /**/
+
     @Provides
     @Singleton
-    fun provideArtRepository(service: ArtService2): ArtRepository {
-        return ArtRepositoryImpl(service)
+    fun provideArtDao2(@ApplicationContext context: Context): ArtDao2 {
+        return ArtDatabase.createDb(context).artDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideArtRepository(service: ArtService2, dao2: ArtDao2): ArtRepository {
+        return ArtRepositoryImpl(service, dao2)
     }
 
 }

@@ -8,7 +8,10 @@ import com.example.simpletextcomposeapplication.accentureprep2app.repository.Art
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,6 +26,11 @@ class ArtViewModel @Inject constructor(
     private val _stateList = MutableStateFlow<List<ArtItem>>(emptyList())
     val stateList = _stateList.asStateFlow()
 
+    val stateListFromFlow: StateFlow<List<ArtItem>> =
+        repository
+            .getSavedArtItems()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+
     private var detailsId = 0L
     private val _stateDetails = MutableStateFlow<ArtDetails>(ArtDetails(0, ""))
     val stateDetails = _stateDetails.asStateFlow()
@@ -33,9 +41,10 @@ class ArtViewModel @Inject constructor(
         getArtList()
     }
 
-    private fun getArtList() {
+    fun getArtList() {
         viewModelScope.launch(Dispatchers.IO) {
             val result = repository.getArtList()
+            repository.saveArtItems(result)
             withContext(Dispatchers.Main) {
                 _stateList.update {
                     result

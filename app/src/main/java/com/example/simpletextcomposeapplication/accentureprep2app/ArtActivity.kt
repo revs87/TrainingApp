@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -43,7 +44,8 @@ class ArtActivity : ComponentActivity() {
 
             val navController = rememberNavController()
             val viewModel: ArtViewModel = hiltViewModel()
-            val listState = viewModel.stateList.collectAsStateWithLifecycle()
+//            val listState = viewModel.stateList.collectAsStateWithLifecycle()
+            val listState = viewModel.stateListFromFlow.collectAsStateWithLifecycle(emptyList())
             val detailsState = viewModel.stateDetails.collectAsStateWithLifecycle()
 
             MyTheme {
@@ -65,7 +67,8 @@ class ArtActivity : ComponentActivity() {
                             ) {
                                 ArtList(
                                     state = listState,
-                                    onItemClick = { id -> navController.navigate("details/$id") }
+                                    onItemClick = { id -> navController.navigate("details/$id") },
+                                    onBtnClick = viewModel::getArtList
                                 )
                             }
                             composable(
@@ -98,16 +101,26 @@ class ArtActivity : ComponentActivity() {
     @Composable
     private fun ArtList(
         state: State<List<ArtItem>> = derivedStateOf { (0..5).map { ArtItem(it.toLong(), "") } },
-        onItemClick: (Long) -> Unit = {}
+        onItemClick: (Long) -> Unit = {},
+        onBtnClick: () -> Unit = {}
     ) {
-        LazyColumn(
+        Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            items(state.value) {
-                Text(
-                    modifier = Modifier.clickable { onItemClick.invoke(it.id) },
-                    text = "${it.id}: ${it.title}"
-                )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1F)
+            ) {
+                items(state.value) {
+                    Text(
+                        modifier = Modifier.clickable { onItemClick.invoke(it.id) },
+                        text = "${it.id}: ${it.title}"
+                    )
+                }
+            }
+            Button(onClick = { onBtnClick.invoke() }) {
+                Text(text = "Refresh")
             }
         }
     }
