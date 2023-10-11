@@ -16,8 +16,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
-import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,8 +44,8 @@ class ArtActivity : ComponentActivity() {
             val navController = rememberNavController()
             val viewModel: ArtViewModel = hiltViewModel()
 //            val listState = viewModel.stateList.collectAsStateWithLifecycle()
-            val listState = viewModel.stateListFromFlow.collectAsStateWithLifecycle(emptyList())
-            val detailsState = viewModel.stateDetails.collectAsStateWithLifecycle()
+            val listState by viewModel.stateListFromFlow.collectAsStateWithLifecycle(emptyList())
+            val detailsState by viewModel.stateDetails.collectAsStateWithLifecycle()
 
             MyTheme {
                 Scaffold(
@@ -66,7 +65,7 @@ class ArtActivity : ComponentActivity() {
                                 route = "list"
                             ) {
                                 ArtList(
-                                    state = listState,
+                                    state = { listState },
                                     onItemClick = { id -> navController.navigate("details/$id") },
                                     onBtnClick = viewModel::getArtList
                                 )
@@ -83,9 +82,7 @@ class ArtActivity : ComponentActivity() {
                                     LaunchedEffect(id) {
                                         viewModel.setId(id)
                                     }
-                                    ArtDetails(
-                                        state = detailsState
-                                    )
+                                    ArtDetails { detailsState }
                                 }
                             }
                         }
@@ -100,7 +97,7 @@ class ArtActivity : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     private fun ArtList(
-        state: State<List<ArtItem>> = derivedStateOf { (0..5).map { ArtItem(it.toLong(), "") } },
+        state: () -> List<ArtItem> = { (0..5).map { ArtItem(it.toLong(), "") } },
         onItemClick: (Long) -> Unit = {},
         onBtnClick: () -> Unit = {}
     ) {
@@ -112,7 +109,7 @@ class ArtActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .weight(1F)
             ) {
-                items(state.value) {
+                items(state()) {
                     Text(
                         modifier = Modifier.clickable { onItemClick.invoke(it.id) },
                         text = "${it.id}: ${it.title}"
@@ -128,13 +125,13 @@ class ArtActivity : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     private fun ArtDetails(
-        state: State<ArtDetails> = derivedStateOf { ArtDetails(0L, "") },
+        state: () -> ArtDetails = { ArtDetails(0L, "") },
     ) {
         Column {
-            Text(text = state.value.title)
-            Text(text = state.value.description ?: "Empty description")
+            Text(text = state().title)
+            Text(text = state().description ?: "Empty description")
 
-            state.value.imageId?.let {
+            state().imageId?.let {
                 SubcomposeAsyncImage(
                     modifier = Modifier.fillMaxWidth(),
                     model = "https://www.artic.edu/iiif/2/$it/full/843,/0/default.jpg",
