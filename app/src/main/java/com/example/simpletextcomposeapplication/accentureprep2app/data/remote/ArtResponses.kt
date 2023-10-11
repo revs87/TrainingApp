@@ -9,6 +9,15 @@ data class ArtDataResponse(
 data class ArtItemResponse(
     @SerializedName("id") val id: Long,
     @SerializedName("title") val title: String,
+)
+
+data class ArtDetailsDataResponse(
+    @SerializedName("data") val data: ArtItemDetailsResponse
+)
+
+data class ArtItemDetailsResponse(
+    @SerializedName("id") val id: Long,
+    @SerializedName("title") val title: String,
     @SerializedName("description") val description: String? = null,
     @SerializedName("image_id") val imageId: String? = null,
 )

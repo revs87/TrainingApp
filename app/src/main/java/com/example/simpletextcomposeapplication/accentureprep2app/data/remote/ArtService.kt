@@ -24,4 +24,5 @@ class ArtService2 {
     }
 
     suspend fun getArtList(): List<ArtItemResponse> = service.getArtList().data
+    suspend fun getArtDetails(id: Long): ArtItemDetailsResponse = service.getArtDetails(id).data
 }

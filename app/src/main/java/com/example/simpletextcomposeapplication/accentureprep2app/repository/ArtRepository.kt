@@ -2,8 +2,10 @@ package com.example.simpletextcomposeapplication.accentureprep2app.repository
 
 import com.example.simpletextcomposeapplication.accentureprep2app.data.db.ArtDao2
 import com.example.simpletextcomposeapplication.accentureprep2app.data.db.ArtEntity
+import com.example.simpletextcomposeapplication.accentureprep2app.data.remote.ArtItemDetailsResponse
 import com.example.simpletextcomposeapplication.accentureprep2app.data.remote.ArtItemResponse
 import com.example.simpletextcomposeapplication.accentureprep2app.data.remote.ArtService2
+import com.example.simpletextcomposeapplication.accentureprep2app.domain.ArtDetails
 import com.example.simpletextcomposeapplication.accentureprep2app.domain.ArtItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -15,6 +17,8 @@ interface ArtRepository {
     fun getSavedArtItems(): Flow<List<ArtItem>>
 
     suspend fun saveArtItems(list: List<ArtItem>)
+
+    suspend fun getArtDetails(id: Long): ArtDetails
 }
 
 class ArtRepositoryImpl @Inject constructor(
@@ -27,12 +31,20 @@ class ArtRepositoryImpl @Inject constructor(
 
     override suspend fun saveArtItems(list: List<ArtItem>) = list.forEach { dao.insertArt(it.toEntity()) }
 
-
     private fun List<ArtItemResponse>.toDomain(): List<ArtItem> = this.map { it.toDomain() }
 
     private fun ArtItemResponse.toDomain(): ArtItem = ArtItem(
         this.id,
         this.title,
+    )
+
+    override suspend fun getArtDetails(id: Long): ArtDetails = service.getArtDetails(id).toDomain()
+
+    private fun ArtItemDetailsResponse.toDomain(): ArtDetails = ArtDetails(
+        this.id,
+        this.title,
+        this.description,
+        this.imageId,
     )
 }
 

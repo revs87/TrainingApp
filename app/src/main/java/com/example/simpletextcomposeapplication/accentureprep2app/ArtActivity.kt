@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -19,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
@@ -81,7 +83,9 @@ class ArtActivity : ComponentActivity() {
                                     LaunchedEffect(id) {
                                         viewModel.setId(id)
                                     }
-                                    ArtDetails { detailsState }
+                                    ArtDetails(
+                                        state = detailsState
+                                    )
                                 }
                             }
                         }
@@ -124,18 +128,20 @@ class ArtActivity : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     private fun ArtDetails(
-        state: () -> ArtDetails = { ArtDetails(0L, "") },
+        state: ArtDetails = ArtDetails(0L, ""),
     ) {
-        Column {
-            Text(text = state().title)
-            Text(text = state().description ?: "Empty description")
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(text = state.title)
+            Text(text = state.description ?: "Empty description")
 
-            state().imageId?.let {
+            state.imageId?.let {
                 SubcomposeAsyncImage(
                     modifier = Modifier.fillMaxWidth(),
                     model = "https://www.artic.edu/iiif/2/$it/full/843,/0/default.jpg",
                     contentDescription = it
-                ) {}
+                )
             }
         }
     }

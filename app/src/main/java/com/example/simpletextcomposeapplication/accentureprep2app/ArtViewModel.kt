@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -45,7 +47,12 @@ class ArtViewModel @Inject constructor(
 
     fun setId(id: Long?) = id?.let {
         detailsId = it
-
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = repository.getArtDetails(id)
+            withContext(Dispatchers.Main) {
+                _stateDetails.update { result }
+            }
+        }
     }
 
 }
