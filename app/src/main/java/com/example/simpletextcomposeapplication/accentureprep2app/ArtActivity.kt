@@ -83,9 +83,7 @@ class ArtActivity : ComponentActivity() {
                                     LaunchedEffect(id) {
                                         viewModel.setId(id)
                                     }
-                                    ArtDetails(
-                                        state = detailsState
-                                    )
+                                    ArtDetails { detailsState }
                                 }
                             }
                         }
@@ -128,15 +126,15 @@ class ArtActivity : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     private fun ArtDetails(
-        state: ArtDetails = ArtDetails(0L, ""),
+        state: () -> ArtDetails = { ArtDetails(0L, "") },
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            Text(text = state.title)
-            Text(text = state.description ?: "Empty description")
+            Text(text = state().title)
+            Text(text = state().description ?: "Empty description")
 
-            state.imageId?.let {
+            state().imageId?.let {
                 SubcomposeAsyncImage(
                     modifier = Modifier.fillMaxWidth(),
                     model = "https://www.artic.edu/iiif/2/$it/full/843,/0/default.jpg",
