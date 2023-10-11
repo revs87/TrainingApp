@@ -43,7 +43,6 @@ class ArtActivity : ComponentActivity() {
 
             val navController = rememberNavController()
             val viewModel: ArtViewModel = hiltViewModel()
-//            val listState = viewModel.stateList.collectAsStateWithLifecycle()
             val listState by viewModel.stateListFromFlow.collectAsStateWithLifecycle(emptyList())
             val detailsState by viewModel.stateDetails.collectAsStateWithLifecycle()
 

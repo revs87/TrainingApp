@@ -12,9 +12,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -22,9 +20,6 @@ import javax.inject.Inject
 class ArtViewModel @Inject constructor(
     private val repository: ArtRepository
 ) : ViewModel() {
-
-    private val _stateList = MutableStateFlow<List<ArtItem>>(emptyList())
-    val stateList = _stateList.asStateFlow()
 
     val stateListFromFlow: StateFlow<List<ArtItem>> =
         repository
@@ -45,11 +40,6 @@ class ArtViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val result = repository.getArtList()
             repository.saveArtItems(result)
-            withContext(Dispatchers.Main) {
-                _stateList.update {
-                    result
-                }
-            }
         }
     }
 
