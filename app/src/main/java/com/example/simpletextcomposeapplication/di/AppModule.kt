@@ -10,6 +10,11 @@ import com.example.simpletextcomposeapplication.accentureprep2app.data.remote.Ar
 import com.example.simpletextcomposeapplication.accentureprep2app.data.remote.ArtService2Impl
 import com.example.simpletextcomposeapplication.accentureprep2app.repository.ArtRepository
 import com.example.simpletextcomposeapplication.accentureprep2app.repository.ArtRepositoryImpl
+import com.example.simpletextcomposeapplication.accentureprep3app.ArtyViewModel
+import com.example.simpletextcomposeapplication.accentureprep3app.data.remote.ArtyApi
+import com.example.simpletextcomposeapplication.accentureprep3app.data.remote.ArtyService
+import com.example.simpletextcomposeapplication.accentureprep3app.data.repository.ArtyRepository
+import com.example.simpletextcomposeapplication.accentureprep3app.data.repository.ArtyRepositoryImpl
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtApi
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtService
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtServiceImpl
@@ -192,6 +197,26 @@ object AppModule {
     @Singleton
     fun provideArtRepository(service: ArtService2, dao2: ArtDao2): ArtRepository {
         return ArtRepositoryImpl(service, dao2)
+    }
+
+    /**/
+
+    @Provides
+    @Singleton
+    fun provideArtyRepository(service: ArtyApi): ArtyRepository {
+        return ArtyRepositoryImpl(service)
+    }
+
+    @Provides
+    @Singleton
+    fun provideArtyApi(): ArtyApi {
+        return ArtyService()
+    }
+
+    @Provides
+    @Singleton
+    fun provideArtyViewModel(repo: ArtyRepository): ArtyViewModel {
+        return ArtyViewModel(repo)
     }
 
 }
