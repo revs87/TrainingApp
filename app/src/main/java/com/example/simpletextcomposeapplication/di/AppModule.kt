@@ -7,6 +7,7 @@ import com.example.simpletextcomposeapplication.DispatcherProvider
 import com.example.simpletextcomposeapplication.accentureprep2app.data.db.ArtDao2
 import com.example.simpletextcomposeapplication.accentureprep2app.data.db.ArtDatabase
 import com.example.simpletextcomposeapplication.accentureprep2app.data.remote.ArtService2
+import com.example.simpletextcomposeapplication.accentureprep2app.data.remote.ArtService2Impl
 import com.example.simpletextcomposeapplication.accentureprep2app.repository.ArtRepository
 import com.example.simpletextcomposeapplication.accentureprep2app.repository.ArtRepositoryImpl
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtApi
@@ -176,7 +177,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideArtService2(): ArtService2 {
-        return ArtService2()
+        return ArtService2Impl()
     }
 
     /**/

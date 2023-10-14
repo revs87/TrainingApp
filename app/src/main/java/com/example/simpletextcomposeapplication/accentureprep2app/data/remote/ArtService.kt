@@ -5,7 +5,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class ArtService2 {
+interface ArtService2 {
+    suspend fun getArtList(): List<ArtItemResponse>
+
+    suspend fun getArtDetails(id: Long): ArtItemDetailsResponse
+}
+
+class ArtService2Impl : ArtService2 {
 
     private val service: ArtApi2
 
@@ -23,6 +29,6 @@ class ArtService2 {
         service = retrofit.create(ArtApi2::class.java)
     }
 
-    suspend fun getArtList(): List<ArtItemResponse> = service.getArtList().data
-    suspend fun getArtDetails(id: Long): ArtItemDetailsResponse = service.getArtDetails(id).data
+    override suspend fun getArtList(): List<ArtItemResponse> = service.getArtList().data
+    override suspend fun getArtDetails(id: Long): ArtItemDetailsResponse = service.getArtDetails(id).data
 }

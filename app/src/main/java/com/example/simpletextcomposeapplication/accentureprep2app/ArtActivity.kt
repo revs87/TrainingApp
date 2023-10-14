@@ -65,6 +65,8 @@ class ArtActivity : ComponentActivity() {
                             composable(
                                 route = "list"
                             ) {
+                                if (it.savedStateHandle.contains("ok")) { println("Return data OK: ${it.savedStateHandle.get<Long>("ok")}") }
+
                                 ArtList(
                                     state = { listState },
                                     onItemClick = { id -> navController.navigate("details/$id") },
@@ -81,6 +83,7 @@ class ArtActivity : ComponentActivity() {
                             ) { navBackStackEntry ->
                                 navBackStackEntry.arguments?.getLong("id").let { id ->
                                     LaunchedEffect(id) {
+                                        navController.previousBackStackEntry?.let { it.savedStateHandle["ok"] = id }
                                         viewModel.setId(id)
                                     }
                                     ArtDetails { detailsState }
