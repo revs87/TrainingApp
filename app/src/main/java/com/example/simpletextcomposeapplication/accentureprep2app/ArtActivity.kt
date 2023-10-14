@@ -111,9 +111,12 @@ class ArtActivity : ComponentActivity() {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1F)
+                    .weight(1F),
             ) {
-                items(state()) {
+                items(
+                    items = state(),
+                    key = { artItem -> artItem.id }
+                ) {
                     Text(
                         modifier = Modifier.clickable { onItemClick.invoke(it.id) },
                         text = "${it.id}: ${it.title}"
