@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -20,7 +19,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
@@ -68,6 +66,7 @@ class ArtActivity : ComponentActivity() {
                                 if (it.savedStateHandle.contains("ok")) { println("Return data OK: ${it.savedStateHandle.get<Long>("ok")}") }
 
                                 ArtList(
+                                    modifier = Modifier.fillMaxSize(),
                                     state = { listState },
                                     onItemClick = { id -> navController.navigate("details/$id") },
                                     onBtnClick = viewModel::getArtList
@@ -101,12 +100,13 @@ class ArtActivity : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     private fun ArtList(
+        modifier: Modifier = Modifier,
         state: () -> List<ArtItem> = { (0..5).map { ArtItem(it.toLong(), "") } },
         onItemClick: (Long) -> Unit = {},
         onBtnClick: () -> Unit = {}
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = modifier
         ) {
             LazyColumn(
                 modifier = Modifier
