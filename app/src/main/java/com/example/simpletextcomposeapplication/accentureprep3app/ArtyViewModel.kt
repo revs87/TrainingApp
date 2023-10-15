@@ -34,9 +34,11 @@ class ArtyViewModel @Inject constructor(
     private val _detailsState = MutableStateFlow<ArtyItemDetails>(ArtyItemDetails(0L, "", "", ""))
     val detailsState = _detailsState.asStateFlow()
 
+    init {
+        viewModelScope.launch(Dispatchers.IO) { repo.updateArtyList() }
+    }
 
     private var detailsJob: Job? = null
-
     fun getDetails(id: Long) {
         detailsJob?.cancel()
         detailsJob = viewModelScope.launch(Dispatchers.IO) {
