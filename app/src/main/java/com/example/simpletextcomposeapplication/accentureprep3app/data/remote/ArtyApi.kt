@@ -7,6 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import javax.inject.Inject
 
 interface ArtyApi {
 
@@ -23,7 +24,7 @@ interface ArtyApi {
 
 }
 
-class ArtyService : ArtyApi {
+class ArtyService @Inject constructor() : ArtyApi {
 
     private val service: ArtyApi
 

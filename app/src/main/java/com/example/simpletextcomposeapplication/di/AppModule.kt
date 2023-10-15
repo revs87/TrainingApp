@@ -11,6 +11,8 @@ import com.example.simpletextcomposeapplication.accentureprep2app.data.remote.Ar
 import com.example.simpletextcomposeapplication.accentureprep2app.repository.ArtRepository
 import com.example.simpletextcomposeapplication.accentureprep2app.repository.ArtRepositoryImpl
 import com.example.simpletextcomposeapplication.accentureprep3app.ArtyViewModel
+import com.example.simpletextcomposeapplication.accentureprep3app.data.db.ArtyDao
+import com.example.simpletextcomposeapplication.accentureprep3app.data.db.ArtyDatabase
 import com.example.simpletextcomposeapplication.accentureprep3app.data.remote.ArtyApi
 import com.example.simpletextcomposeapplication.accentureprep3app.data.remote.ArtyService
 import com.example.simpletextcomposeapplication.accentureprep3app.data.repository.ArtyRepository
@@ -203,8 +205,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideArtyRepository(service: ArtyApi): ArtyRepository {
-        return ArtyRepositoryImpl(service)
+    fun provideArtyDao(@ApplicationContext context: Context): ArtyDao {
+        return ArtyDatabase.createDb(context).dao
+    }
+
+    @Provides
+    @Singleton
+    fun provideArtyRepository(service: ArtyService, dao: ArtyDao): ArtyRepository {
+        return ArtyRepositoryImpl(service, dao)
     }
 
     @Provides
