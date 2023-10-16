@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -46,9 +47,10 @@ class ArtyActivity : ComponentActivity() {
             val list by viewModel.listState.collectAsStateWithLifecycle()
             val details by viewModel.detailsState.collectAsStateWithLifecycle()
 
+
             MyTheme {
                 Scaffold(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 ) { padding ->
                     Surface(
                         modifier = Modifier
@@ -82,10 +84,21 @@ class ArtyActivity : ComponentActivity() {
                                     LaunchedEffect(id) {
                                         viewModel.getDetails(id)
                                     }
-                                    ArtyDetails(
-                                        details = details,
-                                        itemId = id
-                                    )
+                                    when (details) {
+                                        UiState.Starting -> {}
+                                        UiState.Loading -> { CircularProgressIndicator() }
+                                        is UiState.Success -> {
+                                            ArtyDetails(
+                                                details = (details as UiState.Success<ArtyItemDetails>).result,
+                                                itemId = id
+                                            )
+                                        }
+                                        is UiState.Error -> {
+                                            LaunchedEffect((details as UiState.Error<ConnectionError>).timestamp) {
+                                                println("ERROR: " + (details as UiState.Error<ConnectionError>).error.msg)
+                                            }
+                                        }
+                                    }
                                 }
                             }
 
