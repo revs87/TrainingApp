@@ -52,11 +52,11 @@ class ArtyViewModel @Inject constructor(
                     _detailsState.update { UiState.Success(response) }
                 }
             } catch (e: UnknownHostException) {
-                _detailsState.update { UiState.Error(ConnectionError.NoNetwork()) }
+                _detailsState.update { UiState.Error(ConnectionError.NoNetwork) }
             } catch (e: TimeoutCancellationException) {
-                _detailsState.update { UiState.Error(ConnectionError.Timeout()) }
+                _detailsState.update { UiState.Error(ConnectionError.Timeout) }
             } catch (e: Exception) {
-                _detailsState.update { UiState.Error(ConnectionError.Other()) }
+                _detailsState.update { UiState.Error(ConnectionError.Other) }
                 e.printStackTrace()
             }
         }
@@ -69,8 +69,8 @@ class ArtyViewModel @Inject constructor(
     }
 }
 
-sealed class ConnectionError(val msg: String) {
-    data class NoNetwork(val message: String = "No network connection") : ConnectionError(message)
-    data class Timeout(val message: String = "Connection timeout") : ConnectionError(message)
-    data class Other(val message: String = "An error has occurred") : ConnectionError(message)
+sealed class ConnectionError(val message: String) {
+    data object NoNetwork : ConnectionError("No network connection")
+    data object Timeout : ConnectionError("Connection timeout")
+    data object Other : ConnectionError("An error has occurred")
 }

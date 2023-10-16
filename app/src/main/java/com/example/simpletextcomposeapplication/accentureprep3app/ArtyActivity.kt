@@ -95,7 +95,7 @@ class ArtyActivity : ComponentActivity() {
                                         }
                                         is UiState.Error -> {
                                             LaunchedEffect((details as UiState.Error<ConnectionError>).timestamp) {
-                                                println("ERROR: " + (details as UiState.Error<ConnectionError>).error.msg)
+                                                println("ERROR: " + (details as UiState.Error<ConnectionError>).error.message)
                                             }
                                         }
                                     }
