@@ -93,6 +93,10 @@
             android:name=".accentureprep3app.ArtyActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".accentureprep4app.ArtiActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>
