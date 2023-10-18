@@ -17,6 +17,11 @@ import com.example.simpletextcomposeapplication.accentureprep3app.data.remote.Ar
 import com.example.simpletextcomposeapplication.accentureprep3app.data.remote.ArtyService
 import com.example.simpletextcomposeapplication.accentureprep3app.data.repository.ArtyRepository
 import com.example.simpletextcomposeapplication.accentureprep3app.data.repository.ArtyRepositoryImpl
+import com.example.simpletextcomposeapplication.accentureprep4app.ArtiViewModel
+import com.example.simpletextcomposeapplication.accentureprep4app.data.api.ArtiApi
+import com.example.simpletextcomposeapplication.accentureprep4app.data.api.ArtiService
+import com.example.simpletextcomposeapplication.accentureprep4app.data.repository.ArtiRepository
+import com.example.simpletextcomposeapplication.accentureprep4app.data.repository.ArtiRepositoryImpl
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtApi
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtService
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtServiceImpl
@@ -226,5 +231,26 @@ object AppModule {
     fun provideArtyViewModel(repo: ArtyRepository): ArtyViewModel {
         return ArtyViewModel(repo)
     }
+
+    /**/
+
+    @Provides
+    @Singleton
+    fun providesArtiApi() : ArtiApi {
+        return ArtiService()
+    }
+
+    @Provides
+    @Singleton
+    fun providesArtiRepository(api: ArtiApi) : ArtiRepository {
+        return ArtiRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun providesArtiViewModel(repo: ArtiRepository) : ArtiViewModel {
+        return ArtiViewModel(repo)
+    }
+
 
 }
