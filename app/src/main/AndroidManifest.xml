@@ -69,7 +69,11 @@
 
         <activity
             android:name=".meowfactsapp.MeowFactsActivity"
-            android:exported="true">
+            android:exported="true" />
+
+        <activity
+            android:name=".accentureapp.AccentureActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -80,10 +84,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
-        <activity
-            android:name=".accentureapp.AccentureActivity"
-            android:exported="true" />
 
     </application>
 
