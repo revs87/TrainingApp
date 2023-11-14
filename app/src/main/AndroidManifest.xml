@@ -69,7 +69,23 @@
 
         <activity
             android:name=".meowfactsapp.MeowFactsActivity"
-            android:exported="true">
+            android:exported="true" />
+
+        <activity
+            android:name=".accentureprepapp.ArtActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".accentureprep2app.ArtActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".accentureprep3app.ArtyActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".accentureprep4app.ArtiActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
