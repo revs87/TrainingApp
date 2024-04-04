@@ -168,4 +168,19 @@ class MapsAndGroupsTest {
     }
 
     private data class Profile(val name: String, val gender: String, val times: Int)
+
+
+    @Test
+    fun `Receives list, returns groups of max sized lists`() {
+        val list: List<Int> = (1..7).toList()
+
+        val expected = listOf(
+            listOf(1, 2, 3),
+            listOf(4, 5, 6),
+            listOf(7)
+        )
+        val actual = list.windowed(size = 3, step = 3, partialWindows = true)
+
+        assertThat(actual).isEqualTo(expected)
+    }
 }
