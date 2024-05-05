@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -17,6 +20,7 @@ import com.example.simpletextcomposeapplication.sharedelement.navigation.Home
 import com.example.simpletextcomposeapplication.sharedelement.navigation.HomeDetails
 import com.example.simpletextcomposeapplication.theme.MyTheme
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 class SharedElementActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,22 +41,27 @@ class SharedElementActivity : ComponentActivity() {
                             .fillMaxSize()
                             .padding(padding)
                     ) {
-                        NavHost(
-                            navController = navController,
-                            startDestination = Home
-                        ) {
-                            composable<Home> {
-                                HomeScreen(
-                                    onItemClick = { resId, text -> navController.navigate(HomeDetails(resId, text)) }
-                                )
-                            }
-                            composable<HomeDetails> { navBackStackEntry ->
-                                val homeDetails: HomeDetails = navBackStackEntry.toRoute()
-                                with(homeDetails) {
-                                    HomeDetailsScreen(
-                                        resId = resId,
-                                        text = text
+                        SharedTransitionLayout {
+                            NavHost(
+                                navController = navController,
+                                startDestination = Home
+                            ) {
+                                composable<Home> {
+                                    HomeScreen(
+                                        onItemClick = { resId, text -> navController.navigate(HomeDetails(resId, text)) },
+                                        animatedVisibilityScope = this
                                     )
+                                }
+                                composable<HomeDetails> { navBackStackEntry ->
+                                    val homeDetails: HomeDetails = navBackStackEntry.toRoute()
+                                    val animatedVisibilityScope = this
+                                    with(homeDetails) {
+                                        HomeDetailsScreen(
+                                            resId = resId,
+                                            text = text,
+                                            animatedVisibilityScope = animatedVisibilityScope
+                                        )
+                                    }
                                 }
                             }
                         }

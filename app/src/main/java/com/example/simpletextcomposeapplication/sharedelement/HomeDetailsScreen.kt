@@ -1,5 +1,9 @@
 package com.example.simpletextcomposeapplication.sharedelement
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,16 +13,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
 
-@Preview(showBackground = true)
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun HomeDetailsScreen(
+fun SharedTransitionScope.HomeDetailsScreen(
     resId: Int = 0,
-    text: String = "Text"
+    text: String = "Text",
+    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
     Column(
         modifier = Modifier
@@ -27,13 +32,32 @@ fun HomeDetailsScreen(
     ) {
         AsyncImage(
             modifier = Modifier
-                .height(200.dp)
                 .fillMaxWidth()
-            ,
+                .weight(1f)
+                .sharedElement(
+                    state = rememberSharedContentState(key = "image/$resId"),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    boundsTransform = { _, _ ->
+                        tween(durationMillis = 300)
+                    }
+                ),
             model = resId,
             contentDescription = "$resId"
         )
-        Spacer(modifier = Modifier.width(10.dp))
-        Text(text = text)
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .sharedElement(
+                    state = rememberSharedContentState(key = "text/$text"),
+                    animatedVisibilityScope = animatedVisibilityScope,
+                    boundsTransform = { _, _ ->
+                        tween(durationMillis = 300)
+                    }
+                ),
+            textAlign = TextAlign.Center,
+            text = text
+        )
     }
 }
