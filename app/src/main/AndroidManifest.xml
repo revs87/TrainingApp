@@ -97,6 +97,10 @@
                 android:value="" />
         </activity>
 
+        <activity
+            android:name=".sharedelement.SharedElementActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

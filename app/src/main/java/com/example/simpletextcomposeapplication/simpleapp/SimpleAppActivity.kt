@@ -7,14 +7,34 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -35,11 +55,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.wear.compose.material3.ContentAlpha
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.example.simpletextcomposeapplication.R
+import com.example.simpletextcomposeapplication._common.AlphaMedium
 import com.example.simpletextcomposeapplication.categoriesapp.CategoriesAppActivity
 import com.example.simpletextcomposeapplication.theme.LightGray700
 import com.example.simpletextcomposeapplication.theme.LightGreen200
@@ -255,7 +275,7 @@ class SimpleAppActivity : ComponentActivity() {
             Text(
                 text = name,
                 style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.alpha(if (status) 1f else ContentAlpha.medium)
+                modifier = Modifier.alpha(if (status) 1f else AlphaMedium)
             )
             Text(
                 text = if (status) {
@@ -264,7 +284,7 @@ class SimpleAppActivity : ComponentActivity() {
                     "Inactive"
                 },
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.alpha(ContentAlpha.medium)
+                modifier = Modifier.alpha(AlphaMedium)
             )
         }
     }

@@ -19,8 +19,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.wear.compose.material3.ContentAlpha
 import coil.compose.rememberAsyncImagePainter
+import com.example.simpletextcomposeapplication._common.AlphaMedium
 import com.example.simpletextcomposeapplication.categoriesapp.repository.domain.CategoryDomain
 
 
@@ -91,13 +91,13 @@ fun MealCategory(
                 Text(
                     text = category.description,
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.alpha(ContentAlpha.medium),
+                    modifier = Modifier.alpha(AlphaMedium),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = if (expanded) 10 else 4
                 )
             }
             Icon(
-                modifier = Modifier.alpha(ContentAlpha.medium).clickable { expanded = !expanded }.padding(8.dp).align(Alignment.CenterVertically),
+                modifier = Modifier.alpha(AlphaMedium).clickable { expanded = !expanded }.padding(8.dp).align(Alignment.CenterVertically),
                 imageVector = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
                 contentDescription = null
             )
