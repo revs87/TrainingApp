@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        agp_version = '8.1.1'
+        agp_version = '8.4.0'
         compose_compiler_version = '1.5.13'
         compose_version = '1.7.0-alpha08'
         lifecycle_version = '2.8.0-rc01'
