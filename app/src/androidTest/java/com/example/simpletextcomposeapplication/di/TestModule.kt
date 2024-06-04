@@ -25,6 +25,10 @@ import com.example.simpletextcomposeapplication.accentureprep4app.data.repositor
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtApi
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtService
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtServiceImpl
+import com.example.simpletextcomposeapplication.itunestop100.data.local.ITunesAlbumsDatabase
+import com.example.simpletextcomposeapplication.itunestop100.data.remote.ITunesAlbumsService
+import com.example.simpletextcomposeapplication.itunestop100.data.repository.ITunesAlbumsRepositoryImpl
+import com.example.simpletextcomposeapplication.itunestop100.domain.repository.ITunesAlbumsRepository
 import com.example.simpletextcomposeapplication.meowfactsapp.data.remote.MeowFactsApi
 import com.example.simpletextcomposeapplication.meowfactsapp.data.remote.MeowFactsService
 import com.example.simpletextcomposeapplication.meowfactsapp.data.remote.MeowFactsServiceImpl
@@ -247,5 +251,24 @@ object TestModule {
         return ArtiViewModel(repo)
     }
 
+
+    @Provides
+    @Singleton
+    fun provideITunesAlbumsService(): ITunesAlbumsService {
+        return ITunesAlbumsService()
+    }
+    @Provides
+    @Singleton
+    fun provideITunesAlbumsDatabase(@ApplicationContext context: Context): ITunesAlbumsDatabase {
+        return ITunesAlbumsDatabase.createDbForTesting(context)
+    }
+    @Provides
+    @Singleton
+    fun provideITunesAlbumsRepository(
+        service: ITunesAlbumsService,
+        db: ITunesAlbumsDatabase
+    ): ITunesAlbumsRepository {
+        return ITunesAlbumsRepositoryImpl(service, db)
+    }
 
 }

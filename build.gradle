@@ -3,7 +3,7 @@ buildscript {
         agp_version = '8.4.0'
         compose_compiler_version = '1.5.13'
         compose_version = '1.7.0-alpha08'
-        lifecycle_version = '2.8.0-rc01'
+        lifecycle_version = '2.8.0'
         nav_version = '2.8.0-alpha08'
         activity_version = '1.9.0'
         material3_version = '1.2.1'
@@ -13,6 +13,9 @@ buildscript {
         kotlin_version = '1.9.23'
         hilt_version = '2.51.1'
         ksp_version = '1.9.23-1.0.20'
+
+        adaptiveNavigationSuite = "1.0.0-alpha07"
+        material3_adaptive = "1.0.0-beta01"
     }
     dependencies {
         classpath("com.google.dagger:hilt-android-gradle-plugin:$hilt_version")
