@@ -21,6 +21,14 @@ abstract class ArtDatabase : RoomDatabase() {
                 context = context,
                 klass = ArtDatabase::class.java,
                 name = ArtDatabase.DB_NAME
+            )
+                .build()
+        }
+
+        fun createDbForTesting(context: Context): ArtDatabase {
+            return Room.inMemoryDatabaseBuilder(
+                context = context,
+                klass = ArtDatabase::class.java
             ).build()
         }
     }
