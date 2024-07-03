@@ -438,6 +438,27 @@ class LinkedLists {
             }
     }
 
+
+    @Test
+    fun `WHEN arsing links from text content THEN returns parsed as list`() {
+        val text = "February [[2023][http://example.com]] – now and tomorrow by [[noon][http://example.com]]"
+        println(extractContentToList(text))
+
+    }
+    private fun extractContentToList(input: String): List<Pair<String, String>> {
+        val result = mutableListOf<Pair<String, String>>()
+        val text2 = input.split("[[", "]]")
+        text2.forEach { text ->
+            if (text.contains("][")) {
+                val parts = text.split("][")
+                result.add(Pair(parts[0], parts[1]))
+            } else if (text.isNotBlank()) {
+                result.add(Pair(text, ""))
+            }
+        }
+        return result
+    }
+
 }
 private fun Int.asInterval(): String {
     val lowerBound = (this / 10) * 10
