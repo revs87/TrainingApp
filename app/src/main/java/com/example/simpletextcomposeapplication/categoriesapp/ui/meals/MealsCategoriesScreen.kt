@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
-import com.example.simpletextcomposeapplication._common.AlphaMedium
+import com.example.simpletextcomposeapplication.core.AlphaMedium
 import com.example.simpletextcomposeapplication.categoriesapp.repository.domain.CategoryDomain
 
 

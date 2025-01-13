@@ -110,7 +110,7 @@ class RecyclerviewAppActivity : ComponentActivity() {
         binding.recyclerView.adapter = RecyclerViewAdapter(
             dummyContentList.toMutableList(),
             Pair(
-                ContextCompat.getColor(getThisContext(), androidx.constraintlayout.widget.R.color.material_grey_300),
+                ContextCompat.getColor(getThisContext(), android.R.color.holo_green_light),
                 ContextCompat.getColor(getThisContext(), R.color.white)
             )
         )

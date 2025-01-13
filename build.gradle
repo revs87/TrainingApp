@@ -1,18 +1,18 @@
 buildscript {
     ext {
-        agp_version = '8.4.0'
-        compose_compiler_version = '1.5.13'
-        compose_version = '1.7.0-alpha08'
+        agp_version = '8.8.0'
+        compose_version = '1.7.6'
         lifecycle_version = '2.8.0'
-        nav_version = '2.8.0-alpha08'
-        activity_version = '1.9.0'
+        nav_version = '2.8.5'
+        activity_version = '1.9.3'
         material3_version = '1.2.1'
         room_version = '2.6.1'
-        coroutines_version = '1.7.3'
-        serialization_version = '1.6.0'
-        kotlin_version = '1.9.23'
-        hilt_version = '2.51.1'
-        ksp_version = '1.9.23-1.0.20'
+        coroutines_version = '1.9.0'
+        datastorepreferences_version = '1.1.1'
+        serialization_version = '1.7.3'
+        kotlin_version = '2.1.0'
+        hilt_version = '2.55'
+        ksp_version = '2.1.0-1.0.29'
 
         adaptiveNavigationSuite = "1.0.0-alpha07"
         material3_adaptive = "1.0.0-beta01"
@@ -20,7 +20,7 @@ buildscript {
     dependencies {
         classpath("com.google.dagger:hilt-android-gradle-plugin:$hilt_version")
         classpath("com.android.tools.build:gradle:$agp_version")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:3.0.2")
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -31,4 +31,5 @@ plugins {
     id("com.google.devtools.ksp") version "$ksp_version" apply(false)
     id("org.jetbrains.kotlin.jvm") version "$kotlin_version"
     id("org.jetbrains.kotlin.plugin.serialization") version "$kotlin_version"
+    id 'org.jetbrains.kotlin.plugin.compose' version '2.1.0' apply false
 }

@@ -59,7 +59,7 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.example.simpletextcomposeapplication.R
-import com.example.simpletextcomposeapplication._common.AlphaMedium
+import com.example.simpletextcomposeapplication.core.AlphaMedium
 import com.example.simpletextcomposeapplication.categoriesapp.CategoriesAppActivity
 import com.example.simpletextcomposeapplication.theme.LightGray700
 import com.example.simpletextcomposeapplication.theme.LightGreen200
