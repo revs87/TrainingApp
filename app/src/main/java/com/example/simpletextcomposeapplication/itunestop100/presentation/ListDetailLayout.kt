@@ -25,14 +25,18 @@ import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaf
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.simpletextcomposeapplication.core.UserPreference
 import com.example.simpletextcomposeapplication.itunestop100.domain.model.ITunesAlbum
 
 
 @Composable
 fun ListDetailLayout(
     modifier: Modifier = Modifier,
-    items: List<ITunesAlbum>
+    items: List<ITunesAlbum>,
+    dataStoreData: UserPreference?
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
     NavigableListDetailPaneScaffold(
@@ -45,6 +49,16 @@ fun ListDetailLayout(
                 contentPadding = PaddingValues(16.dp)
             ) {
 //                items(items) {
+                item {
+                    Text(
+                        text = "Updated on: ${dataStoreData?.data}",
+                        modifier = Modifier
+                            .fillParentMaxWidth()
+                            .padding(16.dp),
+                        fontSize = 13.sp,
+                        color = Color.Gray,
+                    )
+                }
                 items(
                     count = items.size,
                     contentType = { items[it] },

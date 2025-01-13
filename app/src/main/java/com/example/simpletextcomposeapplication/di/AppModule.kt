@@ -1,6 +1,8 @@
 package com.example.simpletextcomposeapplication.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
 import androidx.room.Room
 import com.example.simpletextcomposeapplication.DefaultDispatchers
 import com.example.simpletextcomposeapplication.DispatcherProvider
@@ -25,6 +27,8 @@ import com.example.simpletextcomposeapplication.accentureprep4app.data.repositor
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtApi
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtService
 import com.example.simpletextcomposeapplication.accentureprepapp.data.remote.ArtServiceImpl
+import com.example.simpletextcomposeapplication.core.UserPreference
+import com.example.simpletextcomposeapplication.core.UserPreferenceSerializer
 import com.example.simpletextcomposeapplication.itunestop100.data.local.ITunesAlbumsDatabase
 import com.example.simpletextcomposeapplication.itunestop100.data.remote.ITunesAlbumsService
 import com.example.simpletextcomposeapplication.itunestop100.data.repository.ITunesAlbumsRepositoryImpl
@@ -63,6 +67,16 @@ object AppModule {
     @Singleton
     fun provideDispatcherProvider(): DispatcherProvider {
         return DefaultDispatchers()
+    }
+
+    private val Context.userDataStore: DataStore<UserPreference> by dataStore(
+        fileName = "secure_user_preferences.pb",
+        serializer = UserPreferenceSerializer
+    )
+    @Provides
+    @Singleton
+    fun provideUserDataStore(@ApplicationContext context: Context): DataStore<UserPreference> {
+        return context.userDataStore
     }
 
     @Provides

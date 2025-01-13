@@ -27,13 +27,20 @@ class ITunesTop100Activity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                 ) { innerPadding ->
 
-                    val items by hiltViewModel<ITunesAlbumsViewModel>()
+                    val vm = hiltViewModel<ITunesAlbumsViewModel>()
+
+                    val items by vm
                         .getTop100Albums()
                         .collectAsStateWithLifecycle(initialValue = emptyList())
 
+                    val dataStoreData by vm
+                        .dataStoreDataState
+                        .collectAsStateWithLifecycle(initialValue = null)
+
                     ListDetailLayout(
                         modifier = Modifier.padding(innerPadding),
-                        items = items
+                        items = items,
+                        dataStoreData = dataStoreData
                     )
 
                 }
