@@ -3,7 +3,10 @@ package com.example.simpletextcomposeapplication.adventofcode
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.example.simpletextcomposeapplication.adventofcode.input.readInput
+import com.google.gson.Gson
 import org.junit.jupiter.api.Test
+import java.net.HttpURLConnection
+import java.net.URL
 import kotlin.math.abs
 
 class Day01 {
@@ -26,7 +29,7 @@ class Day01 {
 
     @Test
     fun part2() {
-        val map = readInput("Day01Input.txt").map { pair ->
+        val map = readInput("Day01Example.txt").map { pair ->
             val first = pair.substringBefore(" ").toLong()
             val second = pair.substringAfterLast(" ").toLong()
             first to second
@@ -39,7 +42,15 @@ class Day01 {
             .values
             .sum()
 
-        assertThat(result).isEqualTo(26407426L)
-    }
+        val grouped: Map<Long, Int> = map
+            .unzip().second
+            .groupingBy { it }
+            .eachCount()
+        val result2 = map.unzip().first.map { // or sumOf()
+            grouped.getOrDefault(it, 0) * it
+        }.sum()
 
+        assertThat(result).isEqualTo(31)
+        assertThat(result2).isEqualTo(31)
+    }
 }
