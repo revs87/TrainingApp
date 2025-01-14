@@ -1,8 +1,10 @@
 package com.example.simpletextcomposeapplication.adventofcode
 
 import com.example.simpletextcomposeapplication.adventofcode.input.readInput
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.runningFold
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.math.abs
@@ -19,14 +21,17 @@ class Day02 {
                 emit(line.split(" ").map { it.toInt() })
             }
         }.map { report ->
-            //report.associateWith { report.safeness() }
-            report.safeness().id
-        }.collect { safeOrNot ->
-            println(safeOrNot)
+            report.safeness().also { println(it.id) }
+        }.filter {
+            it == Safeness.SAFE
+        }.runningFold(0) { acc, value ->
+            acc + 1
+        }.collect { safeCount ->
+            println(safeCount)
         }
     }
 
-    enum class Safeness(val id: String) {
+    private enum class Safeness(val id: String) {
         SAFE("Safe"),
         UNSAFE("Unsafe")
     }
