@@ -3,12 +3,12 @@ package com.example.simpletextcomposeapplication.adventofcode
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.example.simpletextcomposeapplication.adventofcode.input.readInput
-import com.google.gson.Gson
 import org.junit.jupiter.api.Test
-import java.net.HttpURLConnection
-import java.net.URL
 import kotlin.math.abs
 
+/**
+ * https://adventofcode.com/2024/day/1
+ * */
 class Day01 {
 
     @Test
