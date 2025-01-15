@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test
 class Day02 {
     @Test
     fun part1(): Unit = runBlocking {
+//        val expected = 2
         val expected = 526
         val sum = flow<List<Int>> {
 //            readInput("Day02Example.txt").map { line ->
@@ -24,7 +25,7 @@ class Day02 {
                 emit(line.split(" ").map { it.toInt() })
             }
         }.map { report ->
-            report.safeness()//.also { println(it.id + " " + report) }
+            report.safeness().also { println(it.id + " " + report) }
         }.filter {
             it == Safeness.SAFE
         }.count().also(::println)
@@ -34,6 +35,7 @@ class Day02 {
 
     private enum class Safeness(val id: String) {
         SAFE("Safe  "),
+        SAFE_WITH_DAMPENER("SafeWD"),
         UNSAFE("Unsafe")
     }
 
@@ -64,5 +66,34 @@ class Day02 {
             lastValue = value
         }
         return Safeness.SAFE
+    }
+
+    private fun List<Int>.safeness(withDampener: Boolean = false): Safeness {
+        if (!withDampener) return this.safeness()
+        if (this.safeness() == Safeness.SAFE) return Safeness.SAFE
+
+        this.forEachIndexed { index, value ->
+            val dampenerList = this.toMutableList().also { it.removeAt(index) }
+            if (dampenerList.safeness() == Safeness.SAFE) return Safeness.SAFE_WITH_DAMPENER
+        }
+        return Safeness.UNSAFE
+    }
+
+    @Test
+    fun part2(): Unit = runBlocking {
+//        val expected = 4
+        val expected = 566
+        val sum = flow<List<Int>> {
+//            readInput("Day02Example.txt").map { line ->
+            readInput("Day02Input.txt").map { line ->
+                emit(line.split(" ").map { it.toInt() })
+            }
+        }.map { report ->
+            report.safeness(withDampener = true).also { println(it.id + " " + report) }
+        }.filter {
+            it == Safeness.SAFE || it == Safeness.SAFE_WITH_DAMPENER
+        }.count().also(::println)
+
+        assertThat(sum).isEqualTo(expected)
     }
 }
