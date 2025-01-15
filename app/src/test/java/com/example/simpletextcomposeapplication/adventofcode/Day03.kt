@@ -46,4 +46,47 @@ class Day03 {
             Pair(firstNumber.toInt(), secondNumber.toInt())
         }.toList()
     }
+
+    @Test
+    fun part2(): Unit = runBlocking {
+//        val expected = 48
+        val expected = 113965544
+
+        flow<List<Pair<Int, Int>>> {
+//            readInput("Day03Pt2Example.txt").map { input ->
+            readInput("Day03Pt2Input.txt").map { input ->
+                emit(
+                    parseMulOperations(
+                        input.replaceContentBetweenDontAndDo()
+                            //.also(::println)
+                    )//.also { println(it) }
+                )
+            }
+        }.map { listOfPairs ->
+            listOfPairs.sumOf { pair ->
+                pair.first * pair.second
+            }
+        }.reduce { acc, value ->
+            acc + value
+        }.also { sum ->
+            assertThat(sum).isEqualTo(expected)
+        }
+    }
+
+    fun String.replaceContentBetweenDontAndDo(): String {
+        val regex = Regex("""(?<=don't\(\))(.*?)(?=do\(\))""")
+        val resultWithReplacements = regex
+            .replace(this, "")
+            .replace("don't()do()", "")
+
+        // Scenario of the last series of "don't()"s without a "do()"
+        val lastDontIndex = resultWithReplacements.indexOf("don't()")
+        val doIndexAfterLastDontIndex = resultWithReplacements.indexOf("do()", lastDontIndex)
+
+        return if (lastDontIndex != -1 && doIndexAfterLastDontIndex == -1) {
+            resultWithReplacements.substring(0, lastDontIndex)
+        } else {
+            resultWithReplacements
+        }
+    }
 }
