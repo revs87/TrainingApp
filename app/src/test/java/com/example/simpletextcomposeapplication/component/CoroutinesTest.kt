@@ -1,13 +1,18 @@
 package com.example.simpletextcomposeapplication.component
 
 import assertk.assertThat
+import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
 import assertk.assertions.isTrue
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -82,5 +87,40 @@ class CoroutinesTest {
 
             //listOf(c1, c2).awaitAll().map { assertThat(it).isTrue() }
         }
+    }
+
+    @Test
+    fun `WHEN first coroutine is finished THEN all inner coroutines are cancelled`() = runTest {
+        val resultMessage = suspendCancellableCoroutine<String> { continuation ->
+            val cancelJobs: () -> Unit = { continuation.context.cancelChildren() }
+            val innerLaunch: (jobTimeInSeconds: Int) -> Unit = {
+                launch {
+                    delay(it * 1_000L)
+                    println("inner coroutine $it")
+                    continuation.resumeWith(Result.success("success_$it"))
+                    cancelJobs()
+                }
+            }
+
+            try {
+                innerLaunch(3)
+                innerLaunch(2)
+                innerLaunch(4)
+                innerLaunch(2)
+                innerLaunch(5)
+            } catch (e: Exception) {
+                if (e is CancellationException) {
+                    println("cancelled")
+                    throw e
+                }
+                println("exception")
+            }
+
+            continuation.invokeOnCancellation {
+                println("cancelled")
+            }
+        }
+
+        assertThat(resultMessage).isEqualTo("success_2")
     }
 }
