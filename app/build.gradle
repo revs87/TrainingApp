@@ -115,6 +115,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
 
+    // RXJava
+    implementation "io.reactivex.rxjava3:rxjava:3.1.12"
+    implementation "io.reactivex.rxjava3:rxandroid:3.0.2"
+    implementation "com.jakewharton.rxrelay3:rxrelay:3.0.1"
+
     // Unit testing
     testImplementation "androidx.test:core:1.6.1"
     testImplementation "androidx.arch.core:core-testing:2.2.0"
@@ -129,6 +134,8 @@ dependencies {
     testImplementation "io.mockk:mockk:1.13.7"
     testImplementation "com.willowtreeapps.assertk:assertk:0.26.1"
     testImplementation "android.arch.core:core-testing:1.1.1"
+    testImplementation "androidx.room:room-testing:$room_version"
+
 
     // Instrumented testing
     androidTestImplementation 'androidx.test:core-ktx:1.6.1'
@@ -143,6 +150,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
     kspAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+    androidTestImplementation "com.willowtreeapps.assertk:assertk:0.26.1"
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 //    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 }
