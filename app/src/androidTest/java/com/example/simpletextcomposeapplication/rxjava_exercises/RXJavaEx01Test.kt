@@ -54,7 +54,7 @@ class RXJavaEx01Test {
      *     1. Create a Single<User> that emits a dummy user.
      *     2. Create a Completable that simulates saving data to a database.
      *     3. Subscribe to the Single, print the user, and upon success, trigger the Completable.
-     *        Key Types: Single.just(), Completable.fromAction(), subscribe()
+     * Key Types: Single.just(), Completable.fromAction(), subscribe()
      * */
     private fun single(): Single<RXUserEntity> {
         return Single.create { emitter ->
