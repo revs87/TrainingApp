@@ -17,7 +17,7 @@ import org.junit.Test
 import kotlin.random.Random
 
 
-class RXJavaTest {
+class RXJavaEx01Test {
 
     private lateinit var db: RXUserDatabase
 
